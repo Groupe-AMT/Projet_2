@@ -1,4 +1,4 @@
-package ch.heigvd.amt.projet2;
+package ch.heigvd.amt;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;

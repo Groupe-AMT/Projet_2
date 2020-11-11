@@ -7,6 +7,24 @@ security:
   #  - bearerAuth: []
   - apiKeyAuth: []
 paths:
+  # l'application dit qu'un evemment c est passé (posée 1 question, répondre, login)
+  /events:
+    post:
+  # pour la page statistique
+  /users:
+    get:
+  /leaderboards:
+    get:
+  # configuration apps
+  /badges:
+    post:
+    get:
+  # configurer 1 badge
+  /badges/{id}:
+    get:
+    delete:
+    put:
+
   /fruits:
     post:
       description: create a fruit

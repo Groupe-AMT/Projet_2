@@ -1,4 +1,4 @@
-package ch.heigvd.amt.projet2;
+package ch.heigvd.amt;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.databind.util.ISO8601Utils;
