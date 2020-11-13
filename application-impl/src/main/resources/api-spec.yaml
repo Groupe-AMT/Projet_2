@@ -149,11 +149,3 @@ components:
           type: string
         contact:
           type: string
-
-    ApiKey:
-      type: object
-      properties:
-        x-api-key:
-          type: string
-          format: uuid
-
