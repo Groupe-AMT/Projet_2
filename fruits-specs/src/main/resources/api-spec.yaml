@@ -8,22 +8,59 @@ security:
   - apiKeyAuth: []
 paths:
   # l'application dit qu'un evemment c est passé (posée 1 question, répondre, login)
-  /events:
-    post:
+  #/events:
+  #  post:
   # pour la page statistique
-  /users:
-    get:
-  /leaderboards:
-    get:
+  #/users:
+  #  get:
+  #/leaderboards:
+  #  get:
   # configuration apps
   /badges:
     post:
+      description: create a badge
+      operationId: createBadge
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Badge'
+      responses:
+        '201':
+          description: created
+
     get:
+      description: get the list of all badges
+      operationId: getBadges
+      responses:
+        '200':
+          description: success
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Badge'
   # configurer 1 badge
   /badges/{id}:
     get:
-    delete:
-    put:
+      description: get one badge, by id
+      operationId: getBadge
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Badge'
+    #delete:
+    #put:
 
   /fruits:
     post:
@@ -95,3 +132,10 @@ components:
         expirationDateTime:
           type: string
           format: date-time
+    Badge:
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
