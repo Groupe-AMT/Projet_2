@@ -1,13 +1,13 @@
 package ch.heigvd.amt.projet2.entities;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Data;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+@Entity
+@Data
 public class ApplicationEntity {
 
     @Id
@@ -18,11 +18,4 @@ public class ApplicationEntity {
     private String description;
     private String contact;
     private UUID XApiKey;
-
-    @Column(columnDefinition = "DATE")
-    private LocalDate expirationDate;
-
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private OffsetDateTime expirationDateTime;
-
 }

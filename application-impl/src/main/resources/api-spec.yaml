@@ -49,18 +49,24 @@ paths:
               schema:
                 $ref: '#/components/schemas/Fruit'
 
-  /applications:
+  /registrations:
     post:
-      description: create a application
-      operationId: createApplication
+      description: register an app
+      operationId: registrerApp
       requestBody:
         content:
           'application/json':
             schema:
-              $ref: '#/components/schemas/Application'
+              $ref: '#/components/schemas/Registration'
       responses:
         '201':
           description: created
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+
+  /applications:
     get:
       description: get the list of all applications
       operationId: getApplications
@@ -73,23 +79,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Application'
-  /applications/{id}:
-    get:
-      description: get one application, by id
-      operationId: getApplication
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-      responses:
-        '200':
-          description: success
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/Application'
+
+#  /applications/{id}:
+#    get:
+#      description: get one application, by id
+#      operationId: getApplication
+#      parameters:
+#        - in: path
+#          name: i
+#          schema:
+#            type: integer
+#          required: true
+#      responses:
+#        '200':
+#          description: success
+#          content:
+#            'application/json':
+#              schema:
+#                $ref: '#/components/schemas/Application'
 components:
   securitySchemes:
     #    bearerAuth:            # arbitrary name for the security scheme
@@ -130,10 +137,20 @@ components:
           type: string
         XApiKey:
           type: UUID
-        expirationDate:
+
+    Registration:
+      type: object
+      properties:
+        name:
           type: string
-          format: date
-          nullable: false
-        expirationDateTime:
+        description:
           type: string
-          format: date-time
+        contact:
+          type: string
+
+    ApiKey:
+      type: object
+      properties:
+        x-api-key:
+          type: string
+
