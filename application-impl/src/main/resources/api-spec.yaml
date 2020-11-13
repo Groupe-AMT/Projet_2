@@ -48,6 +48,48 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/Fruit'
+
+  /applications:
+    post:
+      description: create a application
+      operationId: createApplication
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Application'
+      responses:
+        '201':
+          description: created
+    get:
+      description: get the list of all applications
+      operationId: getApplications
+      responses:
+        '200':
+          description: success
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Application'
+  /applications/{id}:
+    get:
+      description: get one application, by id
+      operationId: getApplication
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Application'
 components:
   securitySchemes:
     #    bearerAuth:            # arbitrary name for the security scheme
@@ -70,6 +112,24 @@ components:
           type: string
         weight:
           type: string
+        expirationDate:
+          type: string
+          format: date
+          nullable: false
+        expirationDateTime:
+          type: string
+          format: date-time
+    Application:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        contact:
+          type: string
+        XApiKey:
+          type: UUID
         expirationDate:
           type: string
           format: date

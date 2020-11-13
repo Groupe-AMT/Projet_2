@@ -37,5 +37,4 @@ public class    Swagger2SpringBoot implements CommandLineRunner {
             return 10;
         }
     }
-
 }
