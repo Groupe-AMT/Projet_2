@@ -2,9 +2,7 @@ package ch.heigvd.amt.projet2.api.endpoints;
 
 import ch.heigvd.amt.projet2.api.ApplicationsApi;
 import ch.heigvd.amt.projet2.api.model.Application;
-import ch.heigvd.amt.projet2.api.model.Fruit;
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
-import ch.heigvd.amt.projet2.entities.FruitEntity;
 import ch.heigvd.amt.projet2.repositories.ApplicationRepository;
 import io.swagger.annotations.ApiParam;
 import org.h2.util.json.JSONObject;
@@ -25,14 +23,12 @@ public class ApplicationsApiController implements ApplicationsApi {
     ApplicationRepository applicationRepository;
 
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> registrerApp(@ApiParam(value = "", required = true) @Valid @RequestBody Application application) {
+    public ResponseEntity<Void> registerApp(@ApiParam(value = "", required = true) @Valid @RequestBody Application application) {
         UUID uuid = UUID.randomUUID();
         application.setXapiKey(uuid);
 
-
         ApplicationEntity newApplicationEntity = toApplicationEntity(application);
         applicationRepository.save(newApplicationEntity);
-
 
         //Long id = newApplicationEntity.getId();
 

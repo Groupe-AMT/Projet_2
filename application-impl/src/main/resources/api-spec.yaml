@@ -52,7 +52,7 @@ paths:
   /registrations:
     post:
       description: register an app
-      operationId: registrerApp
+      operationId: registerApp
       requestBody:
         content:
           'application/json':
@@ -136,7 +136,8 @@ components:
         contact:
           type: string
         XApiKey:
-          type: UUID
+          type: string
+          format: uuid
 
     Registration:
       type: object
