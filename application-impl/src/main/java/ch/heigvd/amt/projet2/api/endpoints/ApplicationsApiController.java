@@ -22,23 +22,6 @@ public class ApplicationsApiController implements ApplicationsApi {
     @Autowired
     ApplicationRepository applicationRepository;
 
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> registerApp(@ApiParam(value = "", required = true) @Valid @RequestBody Application application) {
-        UUID uuid = UUID.randomUUID();
-        application.setXapiKey(uuid);
-
-        ApplicationEntity newApplicationEntity = toApplicationEntity(application);
-        applicationRepository.save(newApplicationEntity);
-
-        //Long id = newApplicationEntity.getId();
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().path("/{id}")
-                .buildAndExpand(newApplicationEntity.getId()).toUri();
-        //JSONObject js = new JSONObject();
-        return ResponseEntity.created(location).build();
-    }
-
     private ApplicationEntity toApplicationEntity(Application application) {
         ApplicationEntity entity = new ApplicationEntity();
         entity.setContact(application.getContact());

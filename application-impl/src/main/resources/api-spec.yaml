@@ -126,6 +126,7 @@ components:
         expirationDateTime:
           type: string
           format: date-time
+
     Application:
       type: object
       properties:
@@ -154,4 +155,5 @@ components:
       properties:
         x-api-key:
           type: string
+          format: uuid
 
