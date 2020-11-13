@@ -1,5 +1,6 @@
 package ch.heigvd.amt.projet2.api.endpoints;
 
+import ch.heigvd.amt.projet2.api.BadgesApi;
 import ch.heigvd.amt.projet2.api.model.Badge;
 import ch.heigvd.amt.projet2.entities.BadgeEntity;
 import ch.heigvd.amt.projet2.repositories.BadgeRepository;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class BadgesApiController {
+public class BadgesApiController implements BadgesApi {
 
     @Autowired
     BadgeRepository badgeRepository;
