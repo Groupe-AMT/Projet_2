@@ -2,11 +2,12 @@ package ch.heigvd.amt.projet2.entities;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Data
-public class ApplicationEntity {
+public class ApplicationEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
