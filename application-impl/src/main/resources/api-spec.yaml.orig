@@ -154,5 +154,8 @@ components:
           type: string
         contact:
           type: string
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 57c0c47fdb83850b9fbfda9a9c91bf22cc8a666e
