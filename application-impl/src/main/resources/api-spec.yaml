@@ -64,7 +64,12 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/ApiKey'
+                type: object
+                properties:
+                  xApiKey:
+                    type: string
+                    description: api key
+
 
   /applications:
     get:
@@ -136,7 +141,8 @@ components:
         contact:
           type: string
         XApiKey:
-          type: UUID
+          type: string
+          format: uuid
 
     Registration:
       type: object
@@ -148,9 +154,4 @@ components:
         contact:
           type: string
 
-    ApiKey:
-      type: object
-      properties:
-        x-api-key:
-          type: string
 
