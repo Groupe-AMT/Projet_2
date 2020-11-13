@@ -1,9 +1,11 @@
 package ch.heigvd.amt.projet2.api.util;
 
+import org.springframework.stereotype.Component;
 import java.io.IOException;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 
+@Component
 public class ApiOriginFilter implements javax.servlet.Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
