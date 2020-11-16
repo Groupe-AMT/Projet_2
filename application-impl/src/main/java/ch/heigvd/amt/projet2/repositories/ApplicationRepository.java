@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ApplicationRepository extends CrudRepository<ApplicationEntity, Long> {
-        List<Application> findByXApiKey(UUID XApiKey);
+        List<ApplicationEntity> findByXApiKey(UUID XApiKey);
 }

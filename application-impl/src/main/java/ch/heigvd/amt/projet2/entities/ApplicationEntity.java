@@ -16,5 +16,6 @@ public class ApplicationEntity implements Serializable {
     private String name;
     private String description;
     private String contact;
+    @Column(length=16)
     private UUID XApiKey;
 }

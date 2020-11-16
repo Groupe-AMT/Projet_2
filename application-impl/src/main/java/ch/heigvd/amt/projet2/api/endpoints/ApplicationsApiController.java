@@ -14,8 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +27,8 @@ public class ApplicationsApiController implements ApplicationsApi {
 
     @Autowired
     ApplicationRepository applicationRepository;
-
+    @Autowired
+    private HttpServletRequest context;
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ApiKey> registerApp(@ApiParam(value = ""  )  @Valid @RequestBody(required = false) Registration registration) {
         UUID uuid = UUID.randomUUID();
@@ -33,7 +37,6 @@ public class ApplicationsApiController implements ApplicationsApi {
         application.setDescription(registration.getDescription());
         application.setContact(registration.getContact());
         application.setXapiKey(uuid);
-
         ApplicationEntity newApplicationEntity = toApplicationEntity(application);
         applicationRepository.save(newApplicationEntity);
 
@@ -42,12 +45,19 @@ public class ApplicationsApiController implements ApplicationsApi {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newApplicationEntity.getId()).toUri();
-        return ResponseEntity.created(location).build();
+        ApiKey a;
+        a = new ApiKey();
+        a.setXapiKey(uuid);
+        return ResponseEntity.created(location).body(a);
     }
 
     @Override
     public ResponseEntity<List<Application>> getApplications(){
-        return  null;
+        ApplicationEntity appInfo = (ApplicationEntity) context.getAttribute("application");
+        Application app = toApplication(appInfo);
+        List<Application> apps = new LinkedList<>();
+        apps.add(app);
+        return ResponseEntity.ok().body(apps);
     }
 
     private ApplicationEntity toApplicationEntity(Application application) {
@@ -61,10 +71,10 @@ public class ApplicationsApiController implements ApplicationsApi {
 
     private Application toApplication(ApplicationEntity entity) {
         Application application = new Application();
-        application.setContact(application.getContact());
-        application.setDescription(application.getDescription());
-        application.setName(application.getName());
-        application.setXapiKey(application.getXapiKey());
+        application.setContact(entity.getContact());
+        application.setDescription(entity.getDescription());
+        application.setName(entity.getName());
+        application.setXapiKey(entity.getXApiKey());
         return application;
     }
 }
