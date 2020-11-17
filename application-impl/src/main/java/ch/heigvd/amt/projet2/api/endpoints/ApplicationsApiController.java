@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
@@ -29,6 +28,7 @@ public class ApplicationsApiController implements ApplicationsApi {
     ApplicationRepository applicationRepository;
     @Autowired
     private HttpServletRequest context;
+
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ApiKey> registerApp(@ApiParam(value = ""  )  @Valid @RequestBody(required = false) Registration registration) {
         UUID uuid = UUID.randomUUID();

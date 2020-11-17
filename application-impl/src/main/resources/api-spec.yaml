@@ -78,23 +78,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/Application'
 
-#  /applications/{id}:
-#    get:
-#      description: get one application, by id
-#      operationId: getApplication
-#      parameters:
-#        - in: path
-#          name: i
-#          schema:
-#            type: integer
-#          required: true
-#      responses:
-#        '200':
-#          description: success
-#          content:
-#            'application/json':
-#              schema:
-#                $ref: '#/components/schemas/Application'
 components:
   securitySchemes:
     #    bearerAuth:            # arbitrary name for the security scheme
@@ -154,5 +137,3 @@ components:
         XApiKey:
           type: string
           format: uuid
-
-
