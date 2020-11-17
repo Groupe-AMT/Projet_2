@@ -7,6 +7,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +22,7 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
         if(req.getRequestURI().equals("/") ||
                 req.getRequestURI().startsWith("/swagger") ||
                 req.getRequestURI().startsWith("/v3") ||
@@ -30,8 +32,11 @@ public class AuthFilter implements Filter {
         }
 
         String apiKey=req.getHeader("X-API-KEY");
-        if(apiKey==null)
+        if(apiKey==null) {
+            res.setStatus(403);
             return;
+        }
+
         try {
             UUID xApiKey = UUID.fromString(apiKey);
             List<ApplicationEntity> apps = applicationRepository.findByXApiKey(xApiKey);
