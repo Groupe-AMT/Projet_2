@@ -1,25 +1,20 @@
 package ch.heigvd.amt.projet2.configuration;
 
-import com.fasterxml.jackson.core.type.ResolvedType;
+import ch.heigvd.amt.projet2.api.util.AuthFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.HttpAuthenticationBuilder;
-import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.OperationContext;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
 
 import static java.util.Collections.singletonList;
 
@@ -77,5 +72,16 @@ public class SwaggerDocumentationConfig {
                 registry.addMapping("/**").allowedOrigins("*");
             }
         };
+    }
+
+    @Bean
+    public FilterRegistrationBean<AuthFilter> loggingFilter(){
+        FilterRegistrationBean<AuthFilter> registrationBean
+                = new FilterRegistrationBean<>();
+
+        registrationBean.setFilter(new AuthFilter());
+        registrationBean.addUrlPatterns("/users/*");
+
+        return registrationBean;
     }
 }
