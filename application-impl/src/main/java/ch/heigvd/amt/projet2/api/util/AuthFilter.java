@@ -26,8 +26,7 @@ public class AuthFilter implements Filter {
         if(req.getRequestURI().equals("/") ||
                 req.getRequestURI().startsWith("/swagger") ||
                 req.getRequestURI().startsWith("/v3") ||
-                (req.getRequestURI().startsWith("/applications") && req.getMethod().equalsIgnoreCase("post")) ||
-                req.getRequestURI().startsWith("/badges")){
+                (req.getRequestURI().startsWith("/applications") && req.getMethod().equalsIgnoreCase("post"))){
             chain.doFilter(request, response);
             return;
         }
@@ -50,8 +49,7 @@ public class AuthFilter implements Filter {
                 res.setStatus(401);
             }
         } catch (Exception e) {
-        }finally {
-            return;
+            e.printStackTrace();
         }
     }
 
