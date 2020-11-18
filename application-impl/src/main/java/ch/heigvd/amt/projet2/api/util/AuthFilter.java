@@ -26,12 +26,14 @@ public class AuthFilter implements Filter {
         if(req.getRequestURI().equals("/") ||
                 req.getRequestURI().startsWith("/swagger") ||
                 req.getRequestURI().startsWith("/v3") ||
-                (req.getRequestURI().startsWith("/applications") && req.getMethod().equalsIgnoreCase("post"))){
+                (req.getRequestURI().startsWith("/applications") && req.getMethod().equalsIgnoreCase("post")) ||
+                req.getRequestURI().startsWith("/badges")){
             chain.doFilter(request, response);
             return;
         }
 
         String apiKey=req.getHeader("X-API-KEY");
+        // si pas d'API Key fournit on envoie un 403
         if(apiKey==null) {
             res.setStatus(403);
             return;
@@ -40,15 +42,19 @@ public class AuthFilter implements Filter {
         try {
             UUID xApiKey = UUID.fromString(apiKey);
             List<ApplicationEntity> apps = applicationRepository.findByXApiKey(xApiKey);
-            if(apps!=null) {
+            if(!apps.isEmpty()) {
                 req.setAttribute("application", apps.get(0));
                 chain.doFilter(request, response);
+            }else{
+                // si l'API Key ne correspond pas à une application on envoie un 403
+                res.setStatus(401);
             }
         } catch (Exception e) {
         }finally {
             return;
         }
     }
+
 
     @Override
     public void destroy() { }
