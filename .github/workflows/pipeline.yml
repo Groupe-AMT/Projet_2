@@ -35,10 +35,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-
-      - name: change directory
-        run: cd application-impl 
         
       - name: clean and package
-        run: mvn clean package
+        run: mvn -f application-impl/pom.xml clean install
 
