@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+    mysql:
+        image: mysql:8.0.21
+        container_name: projet2
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: AMT
+            MYSQL_USER: root
+            MYSQL_PASSWORD: password
+        ports:
+            - "3307:3306"
+        volumes:
+            - ./init/:/docker-entrypoint-initdb.d/
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        environment:
+            - PMA_HOST=mysql
+        restart: always
+        depends_on:
+            - mysql
+        ports:
+            - "8888:80"
