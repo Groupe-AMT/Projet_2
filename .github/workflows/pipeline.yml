@@ -36,6 +36,9 @@ jobs:
         with:
           java-version: 11
 
+      - name: change directory
+        run: cd application-impl 
+        
       - name: clean and package
         run: mvn clean package
 
