@@ -188,3 +188,25 @@ components:
         XApiKey:
           type: string
           format: uuid
+
+    EndUser:
+      type: object
+      properties:
+        IDUser:
+          type: string
+          format: uuid
+        userName:
+          type: string
+
+    Rewards:
+      type: object
+      properties:
+        attributionDate:
+          type: string
+          format: date
+          nullable: false
+        badgeID:
+          type: long
+        userID:
+          type: string
+          format: uuid
