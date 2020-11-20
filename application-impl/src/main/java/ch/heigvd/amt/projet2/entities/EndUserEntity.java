@@ -16,4 +16,5 @@ public class EndUserEntity implements Serializable {
     private long id;
 
     private UUID IDUser;
+    private String userName;
 }

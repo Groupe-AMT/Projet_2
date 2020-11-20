@@ -27,6 +27,7 @@ public class RegisterUserController implements RegisterUserApi{
         UUID uuid = UUID.randomUUID();
         EndUser endUser = new EndUser();
         endUser.setIdUser(uuid);
+        endUser.setUserName(inlineObject.getUserName());
         EndUserEntity endUserEntity = toEndUserEntity(endUser);
         endUserRepository.save(endUserEntity);
 
@@ -40,12 +41,14 @@ public class RegisterUserController implements RegisterUserApi{
     private EndUserEntity toEndUserEntity(EndUser endUser) {
         EndUserEntity entity = new EndUserEntity();
         entity.setIDUser(endUser.getIdUser());
+        entity.setUserName(endUser.getUserName());
         return entity;
     }
 
     private EndUser toEndUser(EndUserEntity entity) {
         EndUser endUser = new EndUser();
         endUser.setIdUser(entity.getIDUser());
+        endUser.setUserName(entity.getUserName());
         return endUser;
     }
 }
