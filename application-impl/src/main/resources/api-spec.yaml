@@ -121,6 +121,28 @@ paths:
                   items:
                     $ref: '#/components/schemas/Application'
 
+  /registerUser:
+    post:
+      description: register an EndUser
+      operationId: registerEndUser
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              required:
+                - userName
+              properties:
+                userName:
+                  type: string
+      responses:
+        '201':
+          description: created
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/EndUser'
+
 components:
   securitySchemes:
     #    bearerAuth:            # arbitrary name for the security scheme
@@ -186,5 +208,12 @@ components:
       type: object
       properties:
         XApiKey:
+          type: string
+          format: uuid
+
+    EndUser:
+      type: object
+      properties:
+        IDUser:
           type: string
           format: uuid
