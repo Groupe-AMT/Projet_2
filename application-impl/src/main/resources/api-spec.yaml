@@ -220,3 +220,15 @@ components:
         userName:
           type: string
 
+    Rewards:
+      type: object
+      properties:
+        attributionDate:
+          type: string
+          format: date
+          nullable: false
+        badgeID:
+          type: long
+        userID:
+          type: string
+          format: uuid
