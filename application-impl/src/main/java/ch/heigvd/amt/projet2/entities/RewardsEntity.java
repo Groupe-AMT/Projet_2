@@ -14,9 +14,9 @@ public class RewardsEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long badgeID;
-    @Column(length=16)
-    private UUID userID;
-    @Column(columnDefinition = "DATE")
-    private LocalDate attributionDate;
+    @ManyToOne
+    private ApplicationEntity application;
+
+    @ManyToOne
+    private BadgeEntity badge;
 }

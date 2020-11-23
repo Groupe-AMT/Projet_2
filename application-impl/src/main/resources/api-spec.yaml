@@ -1,7 +1,7 @@
 openapi: '3.0.3'
 info:
   version: '0.1.0'
-  title: Fruits API
+  title: Applications API
   description: An API to demonstrate Swagger and Spring Boot
 security:
   #  - bearerAuth: []
@@ -200,13 +200,3 @@ components:
 
     Rewards:
       type: object
-      properties:
-        attributionDate:
-          type: string
-          format: date
-          nullable: false
-        badgeID:
-          type: long
-        userID:
-          type: string
-          format: uuid
