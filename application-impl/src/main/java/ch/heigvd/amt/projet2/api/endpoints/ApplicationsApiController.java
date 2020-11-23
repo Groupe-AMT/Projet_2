@@ -40,8 +40,6 @@ public class ApplicationsApiController implements ApplicationsApi {
         ApplicationEntity newApplicationEntity = toApplicationEntity(application);
         applicationRepository.save(newApplicationEntity);
 
-        //Long id = newApplicationEntity.getId();
-
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newApplicationEntity.getId()).toUri();
