@@ -5,7 +5,9 @@ import ch.heigvd.amt.projet2.api.model.Application;
 import ch.heigvd.amt.projet2.api.model.Badge;
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
 import ch.heigvd.amt.projet2.entities.BadgeEntity;
+import ch.heigvd.amt.projet2.entities.RewardsEntity;
 import ch.heigvd.amt.projet2.repositories.BadgeRepository;
+import ch.heigvd.amt.projet2.repositories.RewardsRepository;
 import io.swagger.annotations.ApiParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -29,13 +31,21 @@ public class BadgesApiController implements BadgesApi {
     BadgeRepository badgeRepository;
 
     @Autowired
+    RewardsRepository rewardsRepository;
+
+    @Autowired
     private HttpServletRequest context;
 
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createBadge(@ApiParam(value = "", required = true) @Valid @RequestBody Badge badge) {
         BadgeEntity newBadgeEntity = toBadgeEntity(badge);
         badgeRepository.save(newBadgeEntity);
-        //Long id = newBadgeEntity.getId();
+
+        // création d'une entrée dans la table de correspondance
+        RewardsEntity rewardsEntity = new RewardsEntity();
+        rewardsEntity.setApplication((ApplicationEntity) context.getAttribute("application"));
+        rewardsEntity.setBadge(newBadgeEntity);
+        rewardsRepository.save(rewardsEntity);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
