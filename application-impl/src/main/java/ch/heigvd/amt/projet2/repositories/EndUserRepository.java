@@ -6,5 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface EndUserRepository extends CrudRepository<EndUserEntity, Long> {
-    List<EndUserEntity> findByIDUser (UUID IDUser);
+    List<EndUserEntity> findByIDUser (String IDUser);
+    List<EndUserEntity> findByIDUserAndAppName (String IDUser, String appName);
 }

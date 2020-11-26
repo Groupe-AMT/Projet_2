@@ -224,6 +224,8 @@ components:
     Event:
       type: object
       properties:
+        IDUser:
+          type: UUID
         userName:
           type: string
         action:

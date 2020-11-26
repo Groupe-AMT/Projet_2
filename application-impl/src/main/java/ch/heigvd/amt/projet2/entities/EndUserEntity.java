@@ -15,6 +15,11 @@ public class EndUserEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private UUID IDUser;
+    private String appName;
+    private String IDUser;
     private String userName;
+
+    private int nbEvents;
+    private int nbVotes;
+    private int nbMessages;
 }
