@@ -1,11 +1,10 @@
 package ch.heigvd.amt.projet2.api.endpoints;
 
 import ch.heigvd.amt.projet2.api.BadgesApi;
-import ch.heigvd.amt.projet2.api.model.Application;
 import ch.heigvd.amt.projet2.api.model.Badge;
+import ch.heigvd.amt.projet2.api.model.InlineObject;
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
 import ch.heigvd.amt.projet2.entities.BadgeEntity;
-import ch.heigvd.amt.projet2.entities.RewardsEntity;
 import ch.heigvd.amt.projet2.repositories.BadgeRepository;
 import ch.heigvd.amt.projet2.repositories.RewardsRepository;
 import io.swagger.annotations.ApiParam;
@@ -37,22 +36,21 @@ public class BadgesApiController implements BadgesApi {
     private HttpServletRequest context;
 
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> createBadge(@ApiParam(value = "", required = true) @Valid @RequestBody Badge badge) {
-        BadgeEntity newBadgeEntity = toBadgeEntity(badge);
-        badgeRepository.save(newBadgeEntity);
+    public ResponseEntity<Void> createBadge(@ApiParam(value = ""  )  @Valid @RequestBody(required = false) InlineObject inlineObject)  {
+        BadgeEntity newBadgeEntity = toBadgeEntity(new Badge());
+        /*badgeRepository.save(newBadgeEntity);
 
         // création d'une entrée dans la table de correspondance
         RewardsEntity rewardsEntity = new RewardsEntity();
         rewardsEntity.setApplication((ApplicationEntity) context.getAttribute("application"));
         rewardsEntity.setBadge(newBadgeEntity);
-        rewardsRepository.save(rewardsEntity);
+        rewardsRepository.save(rewardsEntity);*/
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newBadgeEntity.getId()).toUri();
 
-        long id = newBadgeEntity.getId();
-        return ResponseEntity.created(location).body(Long.toString(id));
+        return ResponseEntity.created(location).build();
     }
 
     public ResponseEntity<List<Badge>> getBadges() {
