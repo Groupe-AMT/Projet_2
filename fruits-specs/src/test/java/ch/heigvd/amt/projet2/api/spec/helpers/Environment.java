@@ -1,6 +1,6 @@
-package ch.heigvd.amt.projet2.api.spec.helpers;
+package ch.heigvd.amt.projet2.fruits.api.spec.helpers;
 
-import ch.heigvd.amt.projet2.api.DefaultApi;
+import ch.heigvd.amt.projet2.fruits.api.DefaultApi;
 
 import java.io.IOException;
 import java.util.Properties;

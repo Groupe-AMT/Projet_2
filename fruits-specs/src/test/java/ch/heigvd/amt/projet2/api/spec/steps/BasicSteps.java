@@ -1,10 +1,10 @@
-package ch.heigvd.amt.projet2.api.spec.steps;
+package ch.heigvd.amt.projet2.fruits.api.spec.steps;
 
-import ch.heigvd.amt.projet2.ApiException;
-import ch.heigvd.amt.projet2.ApiResponse;
-import ch.heigvd.amt.projet2.api.DefaultApi;
-import ch.heigvd.amt.projet2.api.dto.Fruit;
-import ch.heigvd.amt.projet2.api.spec.helpers.Environment;
+import ch.heigvd.amt.projet2.fruits.ApiException;
+import ch.heigvd.amt.projet2.fruits.ApiResponse;
+import ch.heigvd.amt.projet2.fruits.api.DefaultApi;
+import ch.heigvd.amt.projet2.fruits.api.dto.Fruit;
+import ch.heigvd.amt.projet2.fruits.api.spec.helpers.Environment;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;

@@ -7,6 +7,22 @@ security:
   #  - bearerAuth: []
   - apiKeyAuth: []
 paths:
+  /event:
+    post:
+      description: create an event
+      operationId: createEvent
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '201':
+          description: created
+          content:
+            'plain/text':
+              schema:
+                type: String
   /badges:
     post:
       description: create a badge
@@ -101,33 +117,33 @@ paths:
                 $ref: '#/components/schemas/Fruit'
 
   /applications:
-      post:
-        description: register an app
-        operationId: registerApp
-        requestBody:
+    post:
+      description: register an app
+      operationId: registerApp
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Registration'
+      responses:
+        '201':
+          description: created
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Registration'
-        responses:
-          '201':
-            description: created
-            content:
-              'application/json':
-                schema:
-                  $ref: '#/components/schemas/ApiKey'
-      get:
-        description: get the list of all applications
-        operationId: getApplications
-        responses:
-          '200':
-            description: success
-            content:
-              'application/json':
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Application'
+                $ref: '#/components/schemas/ApiKey'
+    get:
+      description: get the list of all applications
+      operationId: getApplications
+      responses:
+        '200':
+          description: success
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Application'
 
 components:
   securitySchemes:
@@ -208,3 +224,11 @@ components:
 
     Rewards:
       type: object
+
+    Event:
+      type: object
+      properties:
+        userName:
+          type: string
+        action:
+          type: string

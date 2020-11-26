@@ -1,4 +1,4 @@
-package ch.heigvd.amt.projet2.api.spec;
+package ch.heigvd.amt.projet2.fruits.api.spec;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;

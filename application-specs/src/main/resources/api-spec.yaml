@@ -1,21 +1,28 @@
 openapi: '3.0.3'
 info:
   version: '0.1.0'
-  title: Fruits API
+  title: Applications API
   description: An API to demonstrate Swagger and Spring Boot
 security:
   #  - bearerAuth: []
   - apiKeyAuth: []
 paths:
-  # l'application dit qu'un evemment c est passé (posée 1 question, répondre, login)
-  #/events:
-  #  post:
-  # pour la page statistique
-  #/users:
-  #  get:
-  #/leaderboards:
-  #  get:
-  # configuration apps
+  /event:
+    post:
+      description: create an event
+      operationId: createEvent
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '201':
+          description: created
+          content:
+            'plain/text':
+              schema:
+                type: String
   /badges:
     post:
       description: create a badge
@@ -28,6 +35,10 @@ paths:
       responses:
         '201':
           description: created
+          content:
+            'application/json':
+              schema:
+                type: string
 
     get:
       description: get the list of all badges
@@ -59,9 +70,6 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/Badge'
-    #delete:
-    #put:
-
   /fruits:
     post:
       description: create a fruit
@@ -103,6 +111,36 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/Fruit'
+
+  /applications:
+    post:
+      description: register an app
+      operationId: registerApp
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Registration'
+      responses:
+        '201':
+          description: created
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+    get:
+      description: get the list of all applications
+      operationId: getApplications
+      responses:
+        '200':
+          description: success
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Application'
+
 components:
   securitySchemes:
     #    bearerAuth:            # arbitrary name for the security scheme
@@ -132,10 +170,61 @@ components:
         expirationDateTime:
           type: string
           format: date-time
+
     Badge:
       type: object
       properties:
         name:
           type: string
         image:
+          type: string
+
+    Application:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        contact:
+          type: string
+        XApiKey:
+          type: string
+          format: uuid
+
+    Registration:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        contact:
+          type: string
+
+    ApiKey:
+      type: object
+      properties:
+        XApiKey:
+          type: string
+          format: uuid
+
+    EndUser:
+      type: object
+      properties:
+        IDUser:
+          type: string
+          format: uuid
+        userName:
+          type: string
+
+    Rewards:
+      type: object
+
+    Event:
+      type: object
+      properties:
+        userName:
+          type: string
+        action:
           type: string
