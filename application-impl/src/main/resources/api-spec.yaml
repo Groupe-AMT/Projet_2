@@ -31,15 +31,7 @@ paths:
         content:
           'application/json':
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                image:
-                  type: string
-                userName:
-                  type: string
-
+              $ref: '#/components/schemas/BadgeRegistration'
       responses:
         '201':
           description: created
@@ -221,6 +213,14 @@ components:
           format: uuid
         userName:
           type: string
+        appName:
+          type: string
+        nbEvents:
+          type: int
+        nbVotes:
+          type: int
+        nbMessages:
+          type: int
 
     Rewards:
       type: object
@@ -229,8 +229,19 @@ components:
       type: object
       properties:
         IDUser:
-          type: UUID
+          type: string
+          format: uuid
         userName:
           type: string
         action:
+          type: string
+
+    BadgeRegistration:
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        userName:
           type: string
