@@ -19,4 +19,7 @@ public class RewardsEntity implements Serializable {
 
     @ManyToOne
     private BadgeEntity badge;
+
+    @ManyToOne
+    private EndUserEntity endUser;
 }

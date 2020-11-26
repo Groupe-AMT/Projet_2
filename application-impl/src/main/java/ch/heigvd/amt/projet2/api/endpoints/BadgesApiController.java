@@ -7,6 +7,7 @@ import ch.heigvd.amt.projet2.api.model.EndUser;
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
 import ch.heigvd.amt.projet2.entities.BadgeEntity;
 import ch.heigvd.amt.projet2.entities.EndUserEntity;
+import ch.heigvd.amt.projet2.entities.RewardsEntity;
 import ch.heigvd.amt.projet2.repositories.BadgeRepository;
 import ch.heigvd.amt.projet2.repositories.EndUserRepository;
 import ch.heigvd.amt.projet2.repositories.RewardsRepository;
@@ -45,21 +46,33 @@ public class BadgesApiController implements BadgesApi {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createBadge(@ApiParam(value = ""  )  @Valid @RequestBody(required = false) BadgeRegistration badgeRegistration)  {
         List<EndUserEntity> result = endUserRepository.findByUserName(badgeRegistration.getUserName());
-        /*if(result.isEmpty()){
+        EndUserEntity user = null;
 
+        // création d'un user à la volée
+        if(result.isEmpty()){
+            EndUser u = new EndUser();
+            u.setUserName(badgeRegistration.getUserName());
+            u.setIdUser(UUID.randomUUID());
+            u.setAppName(((ApplicationEntity) context.getAttribute("application")).getName());
+            u.setNbEvents(0);
+            u.setNbVotes(0);
+            u.setNbMessages(0);
+            user = toEndUserEntity(u);
+            endUserRepository.save(user);
         }else{
-            //EndUser user = result.get(0);
-        }*/
+            user = result.get(0);
+        }
 
+        // création du badge
         BadgeEntity newBadgeEntity = toBadgeEntity(new Badge());
-
-        /*badgeRepository.save(newBadgeEntity);
+        badgeRepository.save(newBadgeEntity);
 
         // création d'une entrée dans la table de correspondance
         RewardsEntity rewardsEntity = new RewardsEntity();
         rewardsEntity.setApplication((ApplicationEntity) context.getAttribute("application"));
         rewardsEntity.setBadge(newBadgeEntity);
-        rewardsRepository.save(rewardsEntity);*/
+        rewardsEntity.setEndUser(user);
+        rewardsRepository.save(rewardsEntity);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -96,10 +109,14 @@ public class BadgesApiController implements BadgesApi {
         return badge;
     }
 
-    private EndUser toEndUser (EndUserEntity entity){
-        EndUser u = new EndUser();
-        u.setUserName(entity.getUserName());
-        u.setIdUser(entity.getIDUser());
+    private EndUserEntity toEndUserEntity (EndUser endUser){
+        EndUserEntity u = new EndUserEntity();
+        u.setUserName(endUser.getUserName());
+        u.setIDUser(endUser.getIdUser());
+        u.setAppName(endUser.getAppName());
+        u.setNbEvents(endUser.getNbEvents());
+        u.setNbVotes(endUser.getNbVotes());
+        u.setNbMessages(endUser.getNbMessages());
         return u;
     }
 }
