@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Table
 public class RewardsEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +20,7 @@ public class RewardsEntity implements Serializable {
 
     @ManyToOne
     private BadgeEntity badge;
+
+    @ManyToOne
+    private EndUserEntity endUser;
 }

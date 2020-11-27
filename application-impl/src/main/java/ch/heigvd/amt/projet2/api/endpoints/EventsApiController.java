@@ -61,7 +61,7 @@ public class EventsApiController implements EventApi {
             response = "Event successfully created !";
         }
 
-        System.out.println(endUserRepository.findByIDUser(newEventEntity.getIDUser()));
+        System.out.println(endUserRepository.findByIDUser(newEventEntity.getIDUser().toString()));
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -71,7 +71,7 @@ public class EventsApiController implements EventApi {
 
     private EventEntity toEventEntity(Event event) {
         EventEntity entity = new EventEntity();
-        entity.setIDUser(event.getIdUser().toString());
+        entity.setIDUser(event.getIdUser());
         entity.setUserName(event.getUserName());
         entity.setAction(event.getAction());
         entity.setApplication((ApplicationEntity) context.getAttribute("application"));

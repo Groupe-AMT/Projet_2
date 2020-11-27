@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class EventProcessor{
@@ -20,7 +21,7 @@ public class EventProcessor{
 
     public void processEvent(ApplicationEntity app, EventEntity event) {
         EndUserEntity user = null;
-        List<EndUserEntity> users = endUserRepository.findByIDUserAndAppName(event.getIDUser(), app.getName());
+        List<EndUserEntity> users = endUserRepository.findByIDUserAndAppName(event.getIDUser().toString(), app.getName());
         if (!users.isEmpty()) {
             user = users.get(0);
         }
