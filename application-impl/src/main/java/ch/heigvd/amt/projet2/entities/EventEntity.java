@@ -20,5 +20,4 @@ public class EventEntity implements Serializable {
 
     @ManyToOne
     private ApplicationEntity application;
-
 }
