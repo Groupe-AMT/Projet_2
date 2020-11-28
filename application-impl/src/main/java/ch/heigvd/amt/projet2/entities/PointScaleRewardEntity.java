@@ -3,14 +3,11 @@ package ch.heigvd.amt.projet2.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.UUID;
 
+@Table
 @Entity
 @Data
-@Table
-public class RewardsEntity implements Serializable {
+public class PointScaleRewardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -19,8 +16,5 @@ public class RewardsEntity implements Serializable {
     private ApplicationEntity application;
 
     @ManyToOne
-    private BadgeEntity badge;
-
-    @ManyToOne
-    private EndUserEntity endUser;
+    private PointScaleEntity pointScaleEntity;
 }
