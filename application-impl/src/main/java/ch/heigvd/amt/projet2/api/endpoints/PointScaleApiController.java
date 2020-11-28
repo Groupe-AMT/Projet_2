@@ -1,10 +1,8 @@
 package ch.heigvd.amt.projet2.api.endpoints;
 
-import ch.heigvd.amt.projet2.api.PointScalesApi;
-import ch.heigvd.amt.projet2.api.model.Badge;
+import ch.heigvd.amt.projet2.api.PointscalesApi;
 import ch.heigvd.amt.projet2.api.model.PointScale;
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
-import ch.heigvd.amt.projet2.entities.BadgeEntity;
 import ch.heigvd.amt.projet2.entities.PointScaleEntity;
 import ch.heigvd.amt.projet2.entities.PointScaleRewardEntity;
 import ch.heigvd.amt.projet2.repositories.PointScaleRepository;
@@ -26,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class PointScaleApiController implements PointScalesApi {
+public class PointScaleApiController implements PointscalesApi {
     @Autowired
     PointScaleRepository pointScaleRepository;
 
