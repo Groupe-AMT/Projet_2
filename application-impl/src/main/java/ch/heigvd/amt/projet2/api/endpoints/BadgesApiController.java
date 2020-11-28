@@ -2,15 +2,11 @@ package ch.heigvd.amt.projet2.api.endpoints;
 
 import ch.heigvd.amt.projet2.api.BadgesApi;
 import ch.heigvd.amt.projet2.api.model.Badge;
-import ch.heigvd.amt.projet2.api.model.BadgeRegistration;
-import ch.heigvd.amt.projet2.api.model.EndUser;
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
 import ch.heigvd.amt.projet2.entities.BadgeEntity;
-import ch.heigvd.amt.projet2.entities.EndUserEntity;
-import ch.heigvd.amt.projet2.entities.RewardsEntity;
+import ch.heigvd.amt.projet2.entities.BadgeRewardEntity;
 import ch.heigvd.amt.projet2.repositories.BadgeRepository;
-import ch.heigvd.amt.projet2.repositories.EndUserRepository;
-import ch.heigvd.amt.projet2.repositories.RewardsRepository;
+import ch.heigvd.amt.projet2.repositories.BadgeRewardRepository;
 import io.swagger.annotations.ApiParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -26,7 +22,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class BadgesApiController implements BadgesApi {
@@ -35,44 +30,23 @@ public class BadgesApiController implements BadgesApi {
     BadgeRepository badgeRepository;
 
     @Autowired
-    RewardsRepository rewardsRepository;
-
-    @Autowired
-    EndUserRepository endUserRepository;
+    BadgeRewardRepository badgeRewardRepository;
 
     @Autowired
     private HttpServletRequest context;
 
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> createBadge(@ApiParam(value = ""  )  @Valid @RequestBody(required = false) BadgeRegistration badgeRegistration)  {
-        List<EndUserEntity> result = endUserRepository.findByUserName(badgeRegistration.getUserName());
-        EndUserEntity user = null;
-
-        // création d'un user à la volée
-        if(result.isEmpty()){
-            EndUser u = new EndUser();
-            u.setUserName(badgeRegistration.getUserName());
-            u.setIdUser(UUID.randomUUID());
-            u.setAppName(((ApplicationEntity) context.getAttribute("application")).getName());
-            u.setNbEvents(0);
-            u.setNbVotes(0);
-            u.setNbMessages(0);
-            user = toEndUserEntity(u);
-            endUserRepository.save(user);
-        }else{
-            user = result.get(0);
-        }
+    public ResponseEntity<Void> createBadge(@ApiParam(value = ""  )  @Valid @RequestBody(required = false) Badge badge)  {
 
         // création du badge
-        BadgeEntity newBadgeEntity = toBadgeEntity(new Badge());
+        BadgeEntity newBadgeEntity = toBadgeEntity(badge);
         badgeRepository.save(newBadgeEntity);
 
         // création d'une entrée dans la table de correspondance
-        RewardsEntity rewardsEntity = new RewardsEntity();
-        rewardsEntity.setApplication((ApplicationEntity) context.getAttribute("application"));
-        rewardsEntity.setBadge(newBadgeEntity);
-        rewardsEntity.setEndUser(user);
-        rewardsRepository.save(rewardsEntity);
+        BadgeRewardEntity badgeRewardEntity = new BadgeRewardEntity();
+        badgeRewardEntity.setApplication((ApplicationEntity) context.getAttribute("application"));
+        badgeRewardEntity.setBadge(newBadgeEntity);
+        badgeRewardRepository.save(badgeRewardEntity);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -83,8 +57,8 @@ public class BadgesApiController implements BadgesApi {
 
     public ResponseEntity<List<Badge>> getBadges() {
         List<Badge> badges = new ArrayList<>();
-        for (BadgeEntity badgeEntity : badgeRepository.findByApplication((ApplicationEntity) context.getAttribute("application"))) {
-            badges.add(toBadge(badgeEntity));
+        for (BadgeRewardEntity badgeRewardEntity : badgeRewardRepository.findByApplication((ApplicationEntity) context.getAttribute("application"))) {
+            badges.add(toBadge(badgeRewardEntity.getBadge()));
         }
         return ResponseEntity.ok(badges);
     }
@@ -98,7 +72,6 @@ public class BadgesApiController implements BadgesApi {
         BadgeEntity entity = new BadgeEntity();
         entity.setName(badge.getName());
         entity.setImage(badge.getImage());
-        entity.setApplication((ApplicationEntity) context.getAttribute("application"));
         return entity;
     }
 
@@ -107,16 +80,5 @@ public class BadgesApiController implements BadgesApi {
         badge.setName(entity.getName());
         badge.setImage(entity.getImage());
         return badge;
-    }
-
-    private EndUserEntity toEndUserEntity (EndUser endUser){
-        EndUserEntity u = new EndUserEntity();
-        u.setUserName(endUser.getUserName());
-        u.setIDUser(endUser.getIdUser());
-        u.setAppName(endUser.getAppName());
-        u.setNbEvents(endUser.getNbEvents());
-        u.setNbVotes(endUser.getNbVotes());
-        u.setNbMessages(endUser.getNbMessages());
-        return u;
     }
 }

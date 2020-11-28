@@ -31,7 +31,7 @@ paths:
         content:
           'application/json':
             schema:
-              $ref: '#/components/schemas/BadgeRegistration'
+              $ref: '#/components/schemas/Badge'
       responses:
         '201':
           description: created
@@ -162,7 +162,10 @@ components:
         nbMessages:
           type: int
 
-    Rewards:
+    BadgeReward:
+      type: object
+
+    PointScaleReward:
       type: object
 
     Event:
@@ -176,12 +179,10 @@ components:
         action:
           type: string
 
-    BadgeRegistration:
+    PointScale:
       type: object
       properties:
         name:
           type: string
-        image:
-          type: string
-        userName:
-          type: string
+        scale:
+          type: int
