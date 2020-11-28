@@ -8,6 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface PointScaleRewardRepository extends CrudRepository<PointScaleRewardEntity, Long> {
-    List<PointScaleRewardRepository> findByApplication(ApplicationEntity applicationEntity);
-    List<PointScaleRewardRepository> findByPointScaleEntity(PointScaleEntity pointScaleEntity);
+    List<PointScaleRewardEntity> findByApplication(ApplicationEntity applicationEntity);
+    List<PointScaleRewardEntity> findByPointScaleEntity(PointScaleEntity pointScaleEntity);
 }
