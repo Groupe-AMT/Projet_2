@@ -4,8 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.UUID;
 
 @Data
 @Entity
@@ -30,7 +28,7 @@ public class RuleEntity implements Serializable {
     public boolean isTriggered(EventEntity event){
         boolean res = false;
         if (action.equals(event.getAction())) {
-            if (attribute == null || attribute == event.getAttribute()) {
+            if (attribute == null || attribute.equals(event.getAttribute())) {
                 res = true;
             }
         }

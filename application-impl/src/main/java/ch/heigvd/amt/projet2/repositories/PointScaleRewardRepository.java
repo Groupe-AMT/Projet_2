@@ -1,7 +1,6 @@
 package ch.heigvd.amt.projet2.repositories;
 
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
-import ch.heigvd.amt.projet2.entities.EndUserEntity;
 import ch.heigvd.amt.projet2.entities.PointScaleEntity;
 import ch.heigvd.amt.projet2.entities.PointScaleRewardEntity;
 import org.springframework.data.repository.CrudRepository;

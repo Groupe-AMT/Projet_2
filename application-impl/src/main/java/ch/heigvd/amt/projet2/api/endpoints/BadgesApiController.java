@@ -30,30 +30,16 @@ public class BadgesApiController implements BadgesApi {
     BadgeRepository badgeRepository;
 
     @Autowired
-    BadgeRewardRepository badgeRewardRepository;
-
-    @Autowired
     private HttpServletRequest context;
 
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createBadge(@ApiParam(value = ""  )  @Valid @RequestBody(required = false) Badge badge)  {
-
-        // création du badge
         BadgeEntity newBadgeEntity = toBadgeEntity(badge);
         badgeRepository.save(newBadgeEntity);
-
-        // création d'une entrée dans la table de correspondance
-        /*
-        BadgeRewardEntity badgeRewardEntity = new BadgeRewardEntity();
-        badgeRewardEntity.setApplication((ApplicationEntity) context.getAttribute("application"));
-        badgeRewardEntity.setBadge(newBadgeEntity);
-        badgeRewardRepository.save(badgeRewardEntity);
-        */
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newBadgeEntity.getId()).toUri();
-
         return ResponseEntity.created(location).build();
     }
 

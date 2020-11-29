@@ -1,9 +1,7 @@
 package ch.heigvd.amt.projet2.api.endpoints;
 
 import ch.heigvd.amt.projet2.api.RuleApi;
-import ch.heigvd.amt.projet2.api.model.Event;
 import ch.heigvd.amt.projet2.api.model.Rule;
-import ch.heigvd.amt.projet2.api.services.EventProcessor;
 import ch.heigvd.amt.projet2.entities.*;
 import ch.heigvd.amt.projet2.repositories.BadgeRepository;
 import ch.heigvd.amt.projet2.repositories.PointScaleRepository;
@@ -16,11 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
-import java.sql.Date;
 
 @Controller
 public class RuleApiController implements RuleApi {
@@ -49,7 +45,6 @@ public class RuleApiController implements RuleApi {
         if (newRuleEntity == null) {
             return ResponseEntity.created(location).body(response);
         }
-
         if (app != null) {
             ruleRepository.save(newRuleEntity);
 

@@ -36,17 +36,8 @@ public class PointScaleApiController implements PointscalesApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createPointScale(@ApiParam(value = ""  )  @Valid @RequestBody(required = false) PointScale pointScale){
-        // création du point scale
         PointScaleEntity newPointScaleEntity = toPointScaleEntity(pointScale);
         pointScaleRepository.save(newPointScaleEntity);
-
-        // création du point scale reward
-        /*
-        PointScaleRewardEntity pointScaleRewardEntity = new PointScaleRewardEntity();
-        pointScaleRewardEntity.setApplication((ApplicationEntity) context.getAttribute("application"));
-        pointScaleRewardEntity.setPointScaleEntity(newPointScaleEntity);
-        pointScaleRewardRepository.save(pointScaleRewardEntity);
-        */
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
