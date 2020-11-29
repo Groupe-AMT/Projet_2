@@ -7,6 +7,23 @@ security:
   #  - bearerAuth: []
   - apiKeyAuth: []
 paths:
+  /rule:
+    post:
+      description: create a rule
+      operationId: createRule
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Rule'
+      responses:
+        '201':
+          description: created
+          content:
+            'plain/text':
+              schema:
+                type: string
+
   /event:
     post:
       description: create an event
@@ -218,10 +235,40 @@ components:
         IDUser:
           type: string
           format: uuid
+        timestamp:
+          type: string
+          format: date
         userName:
           type: string
         action:
           type: string
+        attribute:
+          type: string
+
+    Rule:
+      type: object
+      properties:
+        name:
+          type: string
+        if:
+          type: object
+          properties:
+            action:
+              type: string
+            attribute:
+              type: string
+        then:
+          type: object
+          properties:
+            badge:
+              type: string
+            points:
+              type: object
+              properties:
+                pointscale:
+                  type: string
+                amount:
+                  type: integer
 
     PointScale:
       type: object

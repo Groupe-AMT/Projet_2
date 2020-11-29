@@ -9,19 +9,21 @@ import java.util.UUID;
 
 @Data
 @Entity
-public class EventEntity implements Serializable {
-
+public class RuleEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private UUID IDUser;
-    private Date timestamp;
+    private String name;
 
-    private String userName;
     private String action;
     private String attribute;
 
+    private BadgeEntity badge;
+    private PointScaleEntity pointScale;
+    private int amount;
+
     @ManyToOne
     private ApplicationEntity application;
+
 }

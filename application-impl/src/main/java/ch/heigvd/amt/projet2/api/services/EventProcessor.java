@@ -13,18 +13,11 @@ import java.util.UUID;
 @Service
 public class EventProcessor{
 
+    @Autowired
     EndUserRepository endUserRepository;
 
-    public EventProcessor(EndUserRepository repo){
-        endUserRepository = repo;
-    }
-
     public void processEvent(ApplicationEntity app, EventEntity event) {
-        EndUserEntity user = null;
-        List<EndUserEntity> users = endUserRepository.findByIDUserAndAppName(event.getIDUser().toString(), app.getName());
-        if (!users.isEmpty()) {
-            user = users.get(0);
-        }
+        EndUserEntity user = endUserRepository.findByIDUserAndAppName(event.getIDUser(), app.getName());
 
         if (user == null) {
             user = new EndUserEntity();

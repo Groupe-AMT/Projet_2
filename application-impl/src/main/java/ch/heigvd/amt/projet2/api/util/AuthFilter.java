@@ -41,13 +41,13 @@ public class AuthFilter implements Filter {
 
         try {
             UUID xApiKey = UUID.fromString(apiKey);
-            List<ApplicationEntity> apps = applicationRepository.findByXApiKey(xApiKey);
-            if(!apps.isEmpty()) {
-                req.setAttribute("application", apps.get(0));
+            ApplicationEntity app = applicationRepository.findByXApiKey(xApiKey);
+            if(app != null) {
+                req.setAttribute("application", app);
                 chain.doFilter(request, response);
             }else{
                 // si l'API Key ne correspond pas à une application on envoie un 403
-                res.setStatus(401);
+                res.setStatus(403);
             }
         } catch (Exception e) {
             e.printStackTrace();
