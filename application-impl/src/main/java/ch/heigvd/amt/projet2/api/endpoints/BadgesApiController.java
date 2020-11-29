@@ -43,10 +43,12 @@ public class BadgesApiController implements BadgesApi {
         badgeRepository.save(newBadgeEntity);
 
         // création d'une entrée dans la table de correspondance
+        /*
         BadgeRewardEntity badgeRewardEntity = new BadgeRewardEntity();
         badgeRewardEntity.setApplication((ApplicationEntity) context.getAttribute("application"));
         badgeRewardEntity.setBadge(newBadgeEntity);
         badgeRewardRepository.save(badgeRewardEntity);
+        */
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -57,8 +59,8 @@ public class BadgesApiController implements BadgesApi {
 
     public ResponseEntity<List<Badge>> getBadges() {
         List<Badge> badges = new ArrayList<>();
-        for (BadgeRewardEntity badgeRewardEntity : badgeRewardRepository.findByApplication((ApplicationEntity) context.getAttribute("application"))) {
-            badges.add(toBadge(badgeRewardEntity.getBadge()));
+        for (BadgeEntity badgeEntity : badgeRepository.findByApp((ApplicationEntity) context.getAttribute("application"))) {
+            badges.add(toBadge(badgeEntity));
         }
         return ResponseEntity.ok(badges);
     }
@@ -72,6 +74,7 @@ public class BadgesApiController implements BadgesApi {
         BadgeEntity entity = new BadgeEntity();
         entity.setName(badge.getName());
         entity.setImage(badge.getImage());
+        entity.setApp((ApplicationEntity) context.getAttribute("application"));
         return entity;
     }
 

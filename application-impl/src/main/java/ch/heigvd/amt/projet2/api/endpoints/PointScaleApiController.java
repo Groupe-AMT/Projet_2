@@ -41,10 +41,12 @@ public class PointScaleApiController implements PointscalesApi {
         pointScaleRepository.save(newPointScaleEntity);
 
         // création du point scale reward
+        /*
         PointScaleRewardEntity pointScaleRewardEntity = new PointScaleRewardEntity();
         pointScaleRewardEntity.setApplication((ApplicationEntity) context.getAttribute("application"));
         pointScaleRewardEntity.setPointScaleEntity(newPointScaleEntity);
         pointScaleRewardRepository.save(pointScaleRewardEntity);
+        */
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -70,6 +72,7 @@ public class PointScaleApiController implements PointscalesApi {
         PointScaleEntity entity = new PointScaleEntity();
         entity.setName(pointScale.getName());
         entity.setScale(pointScale.getScale());
+        entity.setApp((ApplicationEntity) context.getAttribute("application"));
         return entity;
     }
 

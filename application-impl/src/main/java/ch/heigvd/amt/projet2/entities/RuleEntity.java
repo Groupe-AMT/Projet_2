@@ -19,11 +19,21 @@ public class RuleEntity implements Serializable {
     private String action;
     private String attribute;
 
-    private BadgeEntity badge;
-    private PointScaleEntity pointScale;
+    private String nameBadge;
+    private String namePointScale;
+
     private int amount;
 
     @ManyToOne
     private ApplicationEntity application;
 
+    public boolean isTriggered(EventEntity event){
+        boolean res = false;
+        if (action.equals(event.getAction())) {
+            if (attribute == null || attribute == event.getAttribute()) {
+                res = true;
+            }
+        }
+        return res;
+    }
 }
