@@ -5,8 +5,6 @@ import ch.heigvd.amt.projet2.api.model.Event;
 import ch.heigvd.amt.projet2.api.services.EventProcessor;
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
 import ch.heigvd.amt.projet2.entities.EventEntity;
-import ch.heigvd.amt.projet2.repositories.ApplicationRepository;
-import ch.heigvd.amt.projet2.repositories.EndUserRepository;
 import ch.heigvd.amt.projet2.repositories.EventRepository;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.sql.Date;
-import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class EventsApiController implements EventApi {
@@ -39,11 +34,9 @@ public class EventsApiController implements EventApi {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> createEvent(@ApiParam(value = "", required = true) @Valid @RequestBody Event event){
         EventEntity newEventEntity = toEventEntity(event);
-
         ApplicationEntity app = (ApplicationEntity) context.getAttribute("application");
 
         String response = "Error in event creation...";
-
         if (app != null) {
             eventRepository.save(newEventEntity);
             eventProcessor.processEvent(app, newEventEntity);

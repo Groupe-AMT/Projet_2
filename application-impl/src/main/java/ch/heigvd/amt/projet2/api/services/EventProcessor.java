@@ -4,9 +4,7 @@ import ch.heigvd.amt.projet2.entities.*;
 import ch.heigvd.amt.projet2.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class EventProcessor{
@@ -40,7 +38,6 @@ public class EventProcessor{
 
         // Check if rules are triggered
         for (RuleEntity rule: linkedRules){
-            System.out.println(rule);
             if (rule.isTriggered(event)){
                 Award(app, rule, user);
             }
@@ -56,7 +53,6 @@ public class EventProcessor{
         int amount = rule.getAmount();
 
         if (badge != null) {
-            System.out.println("Badge not null");
             // On livre le badge en récompense si elle ne l'a pas déjà été
             if (badgeRewardRepository.findByBadgeAndIDUser(badge, user.getIDUser()) == null) {
                 BadgeRewardEntity badgeReward = new BadgeRewardEntity();
@@ -68,7 +64,6 @@ public class EventProcessor{
         }
 
         if (pointScale != null) {
-            System.out.println("Pointscale not null");
             // On ajoute du score en ajoutant une reward point scale à l'utilisateur
             PointScaleRewardEntity pointScaleReward = new PointScaleRewardEntity();
             pointScaleReward.setApplication(app);
