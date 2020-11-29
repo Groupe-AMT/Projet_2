@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.sql.Date;
 
+@Controller
 public class RuleApiController implements RuleApi {
     @Autowired
     private RuleRepository ruleRepository;
@@ -39,10 +41,10 @@ public class RuleApiController implements RuleApi {
 
         ApplicationEntity app = (ApplicationEntity) context.getAttribute("application");
 
-        String response = "Error in event creation...";
+        String response = "Error in rule creation...";
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
-                .buildAndExpand(newRuleEntity.getId()).toUri();
+                .buildAndExpand("-1").toUri();
 
         if (newRuleEntity == null) {
             return ResponseEntity.created(location).body(response);
@@ -50,7 +52,11 @@ public class RuleApiController implements RuleApi {
 
         if (app != null) {
             ruleRepository.save(newRuleEntity);
-            response = "Event successfully created !";
+
+            location = ServletUriComponentsBuilder
+                    .fromCurrentRequest().path("/{id}")
+                    .buildAndExpand(newRuleEntity.getId()).toUri();
+            response = "Rule successfully created !";
         }
 
         return ResponseEntity.created(location).body(response);
@@ -59,8 +65,6 @@ public class RuleApiController implements RuleApi {
     private RuleEntity toRuleEntity(Rule rule) {
         RuleEntity entity = new RuleEntity();
 
-        System.out.println(entity);
-
         entity.setName(rule.getName());
         entity.setApplication((ApplicationEntity) context.getAttribute("application"));
 
@@ -68,14 +72,23 @@ public class RuleApiController implements RuleApi {
         entity.setAttribute(rule.getIf().getAttribute());
 
         try {
-            BadgeEntity badge = new BadgeEntity();
-            badge = badgeRepository.findByName(rule.getThen().getBadge());
-            entity.setBadge(badge);
+            String badgeName = rule.getThen().getBadge();
+            String pointScaleName = rule.getThen().getPoints().getPointscale();
 
-            PointScaleEntity pointScale = new PointScaleEntity();
-            pointScale = pointScaleRepository.findByName(rule.getThen().getPoints().getPointscale());
-            entity.setPointScale(pointScale);
-            entity.setAmount(rule.getThen().getPoints().getAmount());
+            if (badgeName != null){
+                entity.setNameBadge(badgeRepository.findByName(rule.getThen().getBadge()).getName());
+            } else {
+                entity.setNameBadge(null);
+            }
+
+            if (pointScaleName != null){
+                entity.setNamePointScale(pointScaleRepository.findByNameAndApp(rule.getThen().getPoints().getPointscale(), (ApplicationEntity) context.getAttribute("application")).getName());
+                entity.setAmount(rule.getThen().getPoints().getAmount());
+            } else {
+                entity.setNamePointScale(null);
+                entity.setAmount(0);
+            }
+
         } catch (Exception e) {
             return null;
         }

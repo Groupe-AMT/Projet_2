@@ -18,8 +18,4 @@ public class EndUserEntity implements Serializable {
     private String appName;
     private UUID IDUser;
     private String userName;
-
-    private int nbEvents;
-    private int nbVotes;
-    private int nbMessages;
 }

@@ -3,6 +3,7 @@ package ch.heigvd.amt.projet2.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Table
 @Entity
@@ -17,4 +18,7 @@ public class PointScaleRewardEntity {
 
     @ManyToOne
     private PointScaleEntity pointScaleEntity;
+
+    private UUID IDUser;
+    private int amount;
 }

@@ -1,9 +1,7 @@
 package ch.heigvd.amt.projet2.api.services;
 
-import ch.heigvd.amt.projet2.entities.ApplicationEntity;
-import ch.heigvd.amt.projet2.entities.EndUserEntity;
-import ch.heigvd.amt.projet2.entities.EventEntity;
-import ch.heigvd.amt.projet2.repositories.EndUserRepository;
+import ch.heigvd.amt.projet2.entities.*;
+import ch.heigvd.amt.projet2.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,37 +13,81 @@ public class EventProcessor{
 
     @Autowired
     EndUserRepository endUserRepository;
+    @Autowired
+    RuleRepository ruleRepository;
+
+    @Autowired
+    BadgeRepository badgeRepository;
+    @Autowired
+    PointScaleRepository pointScaleRepository;
+
+    @Autowired
+    BadgeRewardRepository badgeRewardRepository;
+    @Autowired
+    PointScaleRewardRepository pointScaleRewardRepository;
 
     public void processEvent(ApplicationEntity app, EventEntity event) {
         EndUserEntity user = endUserRepository.findByIDUserAndAppName(event.getIDUser(), app.getName());
+        List<RuleEntity> linkedRules = ruleRepository.findAllByAction(event.getAction());
 
         if (user == null) {
             user = new EndUserEntity();
             user.setIDUser(event.getIDUser());
             user.setUserName(event.getUserName());
             user.setAppName(app.getName());
-
-            user.setNbEvents(1);
-            switch (event.getAction()){
-                case "message":
-                    user.setNbMessages(1);
-                    break;
-                case "vote":
-                    user.setNbVotes(1);
-                    break;
-            }
             endUserRepository.save(user);
-        } else {
-            user.setNbEvents(user.getNbEvents() + 1);
-            switch (event.getAction()){
-                case "message":
-                    user.setNbMessages(user.getNbMessages()+1);
-                    break;
-                case "vote":
-                    user.setNbVotes(user.getNbVotes()+1);
-                    break;
+        }
+
+        // Check if rules are triggered
+        for (RuleEntity rule: linkedRules){
+            System.out.println(rule);
+            if (rule.isTriggered(event)){
+                Award(app, rule, user);
             }
         }
 
+    }
+
+    public void Award(ApplicationEntity app, RuleEntity rule, EndUserEntity user){
+        // On récupére le badge dans la règle
+        BadgeEntity badge = getBadgeFromName(rule.getNameBadge(), app);
+        // On récupère la pointscale dans la règle et le montant
+        PointScaleEntity pointScale = getPointScaleFromName(rule.getNamePointScale(), app);
+        int amount = rule.getAmount();
+
+        if (badge != null) {
+            System.out.println("Badge not null");
+            // On livre le badge en récompense si elle ne l'a pas déjà été
+            if (badgeRewardRepository.findByBadgeAndIDUser(badge, user.getIDUser()) == null) {
+                BadgeRewardEntity badgeReward = new BadgeRewardEntity();
+                badgeReward.setApplication(app);
+                badgeReward.setBadge(badge);
+                badgeReward.setIDUser(user.getIDUser());
+                badgeRewardRepository.save(badgeReward);
+            }
+        }
+
+        if (pointScale != null) {
+            System.out.println("Pointscale not null");
+            // On ajoute du score en ajoutant une reward point scale à l'utilisateur
+            PointScaleRewardEntity pointScaleReward = new PointScaleRewardEntity();
+            pointScaleReward.setApplication(app);
+            pointScaleReward.setIDUser(user.getIDUser());
+            pointScaleReward.setPointScaleEntity(pointScale);
+            pointScaleReward.setAmount(amount);
+            pointScaleRewardRepository.save(pointScaleReward);
+        }
+    }
+
+    public BadgeEntity getBadgeFromName(String name, ApplicationEntity app){
+        if (name != null)
+            return badgeRepository.findByNameAndApp(name, app);
+        return null;
+    }
+
+    public PointScaleEntity getPointScaleFromName(String name, ApplicationEntity app){
+        if (name != null)
+            return pointScaleRepository.findByNameAndApp(name, app);
+        return null;
     }
 }

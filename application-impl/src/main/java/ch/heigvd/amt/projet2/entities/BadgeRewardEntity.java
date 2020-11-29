@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -18,4 +19,6 @@ public class BadgeRewardEntity implements Serializable {
 
     @ManyToOne
     private BadgeEntity badge;
+
+    private UUID IDUser;
 }
