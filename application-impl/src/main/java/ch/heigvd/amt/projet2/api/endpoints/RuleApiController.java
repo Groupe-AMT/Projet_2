@@ -32,27 +32,14 @@ public class RuleApiController implements RuleApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> createRule(@ApiParam(value = "", required = true) @Valid @RequestBody Rule rule){
-        RuleEntity newRuleEntity = new RuleEntity();
-        newRuleEntity = toRuleEntity(rule);
+        RuleEntity newRuleEntity = toRuleEntity(rule);
 
-        ApplicationEntity app = (ApplicationEntity) context.getAttribute("application");
-
-        String response = "Error in rule creation...";
+        ruleRepository.save(newRuleEntity);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
-                .buildAndExpand("-1").toUri();
+                .buildAndExpand(newRuleEntity.getId()).toUri();
 
-        if (newRuleEntity == null) {
-            return ResponseEntity.created(location).body(response);
-        }
-        if (app != null) {
-            ruleRepository.save(newRuleEntity);
-            location = ServletUriComponentsBuilder
-                    .fromCurrentRequest().path("/{id}")
-                    .buildAndExpand(newRuleEntity.getId()).toUri();
-            response = "Rule successfully created !";
-        }
-
+        String response = "Rule successfully created !";
         return ResponseEntity.created(location).body(response);
     }
 
@@ -63,10 +50,8 @@ public class RuleApiController implements RuleApi {
         if (rule.getThen() == null) return null;
 
         RuleEntity entity = new RuleEntity();
-
         entity.setName(rule.getName());
         entity.setApplication((ApplicationEntity) context.getAttribute("application"));
-
         entity.setAction(rule.getIf().getAction());
         entity.setAttribute(rule.getIf().getAttribute());
 
@@ -95,7 +80,7 @@ public class RuleApiController implements RuleApi {
             }
 
         } catch (Exception e) {
-            return null;
+            e.printStackTrace();
         }
         return entity;
     }

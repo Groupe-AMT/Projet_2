@@ -1,7 +1,6 @@
 package ch.heigvd.amt.projet2.entities;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -13,25 +12,17 @@ public class RuleEntity implements Serializable {
     private long id;
 
     private String name;
-
     private String action;
     private String attribute;
-
     private String nameBadge;
     private String namePointScale;
-
     private int amount;
 
     @ManyToOne
     private ApplicationEntity application;
 
     public boolean isTriggered(EventEntity event){
-        boolean res = false;
-        if (action.equals(event.getAction())) {
-            if (attribute == null || attribute.equals(event.getAttribute())) {
-                res = true;
-            }
-        }
-        return res;
+        return action.equals(event.getAction()) &&
+                (attribute == null || attribute.equals(event.getAttribute()));
     }
 }
