@@ -38,4 +38,7 @@ jobs:
         
       - name: clean and package
         run: mvn -f application-impl/pom.xml clean install
+      
+      - name: test
+        run: mvn -f application-specs/pom.xml clean test
 
