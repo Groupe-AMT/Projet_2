@@ -26,8 +26,7 @@ public class AuthFilter implements Filter {
         if(req.getRequestURI().equals("/") ||
                 req.getRequestURI().startsWith("/swagger") ||
                 req.getRequestURI().startsWith("/v3") ||
-                (req.getRequestURI().startsWith("/applications") && req.getMethod().equalsIgnoreCase("post")) ||
-                req.getRequestURI().startsWith("/registerUser")){
+                (req.getRequestURI().startsWith("/applications") && req.getMethod().equalsIgnoreCase("post"))){
             chain.doFilter(request, response);
             return;
         }

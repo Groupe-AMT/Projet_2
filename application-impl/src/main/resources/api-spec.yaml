@@ -19,10 +19,6 @@ paths:
       responses:
         '201':
           description: created
-          content:
-            'plain/text':
-              schema:
-                type: string
 
   /event:
     post:
@@ -250,15 +246,19 @@ components:
       properties:
         name:
           type: string
+          nullable: false
         if:
           type: object
+          nullable: false
           properties:
             action:
               type: string
+              nullable: false
             attribute:
               type: string
         then:
           type: object
+          nullable: false
           properties:
             badge:
               type: string
