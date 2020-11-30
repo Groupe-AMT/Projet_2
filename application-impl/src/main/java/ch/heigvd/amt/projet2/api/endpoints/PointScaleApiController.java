@@ -36,6 +36,8 @@ public class PointScaleApiController implements PointscalesApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createPointScale(@ApiParam(value = ""  )  @Valid @RequestBody(required = false) PointScale pointScale){
+        if(pointScale.getName() == null || pointScale.getScale() == null) return ResponseEntity.status(404).build();
+
         PointScaleEntity newPointScaleEntity = toPointScaleEntity(pointScale);
         pointScaleRepository.save(newPointScaleEntity);
 

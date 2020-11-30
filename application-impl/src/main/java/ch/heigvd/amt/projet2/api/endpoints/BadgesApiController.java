@@ -34,6 +34,8 @@ public class BadgesApiController implements BadgesApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createBadge(@ApiParam(value = ""  )  @Valid @RequestBody(required = false) Badge badge)  {
+        if (badge.getImage() == null || badge.getName() == null) return ResponseEntity.status(404).build();
+
         BadgeEntity newBadgeEntity = toBadgeEntity(badge);
         badgeRepository.save(newBadgeEntity);
 
@@ -45,9 +47,9 @@ public class BadgesApiController implements BadgesApi {
 
     public ResponseEntity<List<Badge>> getBadges() {
         List<Badge> badges = new ArrayList<>();
-        for (BadgeEntity badgeEntity : badgeRepository.findByApp((ApplicationEntity) context.getAttribute("application"))) {
+        for (BadgeEntity badgeEntity : badgeRepository.findByApp((ApplicationEntity) context.getAttribute("application")))
             badges.add(toBadge(badgeEntity));
-        }
+
         return ResponseEntity.ok(badges);
     }
 
