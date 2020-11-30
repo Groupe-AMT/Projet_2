@@ -237,7 +237,7 @@ components:
           format: uuid
         timestamp:
           type: string
-          format: date
+          format: date-time
         userName:
           type: string
         action:

@@ -17,7 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Controller
 public class EventsApiController implements EventApi {
@@ -55,7 +55,7 @@ public class EventsApiController implements EventApi {
         entity.setUserName(event.getUserName());
         entity.setAction(event.getAction());
         entity.setApplication((ApplicationEntity) context.getAttribute("application"));
-        entity.setTimestamp(Date.valueOf(event.getTimestamp()));
+        entity.setTimestamp(Timestamp.valueOf(event.getTimestamp().toLocalDateTime()));
         entity.setAttribute(event.getAttribute());
         return entity;
     }

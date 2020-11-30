@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Data
@@ -16,7 +16,7 @@ public class EventEntity implements Serializable {
     private long id;
 
     private UUID IDUser;
-    private Date timestamp;
+    private Timestamp timestamp;
 
     private String userName;
     private String action;
