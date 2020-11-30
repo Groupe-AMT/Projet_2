@@ -31,21 +31,24 @@ public class ApplicationsApiController implements ApplicationsApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ApiKey> registerApp(@ApiParam(value = ""  )  @Valid @RequestBody(required = false) Registration registration) {
-        UUID uuid = UUID.randomUUID();
+        if (registration.getContact() == null || registration.getDescription() == null || registration.getName() == null){
+            return ResponseEntity.status(404).build();
+        }
+
         Application application = new Application();
         application.setName(registration.getName());
         application.setDescription(registration.getDescription());
         application.setContact(registration.getContact());
-        application.setXapiKey(uuid);
+        application.setXapiKey(UUID.randomUUID());
         ApplicationEntity newApplicationEntity = toApplicationEntity(application);
         applicationRepository.save(newApplicationEntity);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newApplicationEntity.getId()).toUri();
-        ApiKey a;
-        a = new ApiKey();
-        a.setXapiKey(uuid);
+
+        ApiKey a = new ApiKey();
+        a.setXapiKey(application.getXapiKey());
         return ResponseEntity.created(location).body(a);
     }
 

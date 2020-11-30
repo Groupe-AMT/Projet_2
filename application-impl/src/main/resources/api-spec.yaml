@@ -32,10 +32,7 @@ paths:
       responses:
         '201':
           description: created
-          content:
-            'plain/text':
-              schema:
-                type: string
+
   /badges:
     post:
       description: create a badge

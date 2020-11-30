@@ -32,21 +32,24 @@ public class EventsApiController implements EventApi {
     private EventProcessor eventProcessor;
 
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> createEvent(@ApiParam(value = "", required = true) @Valid @RequestBody Event event){
-        EventEntity newEventEntity = toEventEntity(event);
-        ApplicationEntity app = (ApplicationEntity) context.getAttribute("application");
-
-        String response = "Error in event creation...";
-        if (app != null) {
-            eventRepository.save(newEventEntity);
-            eventProcessor.processEvent(app, newEventEntity);
-            response = "Event successfully created !";
+    public ResponseEntity<Void> createEvent(@ApiParam(value = "", required = true) @Valid @RequestBody Event event){
+        if(event.getAction() == null ||
+                event.getAttribute() == null ||
+                event.getIdUser() == null ||
+                event.getTimestamp() == null ||
+                event.getUserName() == null){
+            return ResponseEntity.status(404).build();
         }
+
+        EventEntity newEventEntity = toEventEntity(event);
+
+        eventRepository.save(newEventEntity);
+        eventProcessor.processEvent((ApplicationEntity) context.getAttribute("application"), newEventEntity);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newEventEntity.getId()).toUri();
-        return ResponseEntity.created(location).body(response);
+        return ResponseEntity.created(location).build();
     }
 
     private EventEntity toEventEntity(Event event) {
