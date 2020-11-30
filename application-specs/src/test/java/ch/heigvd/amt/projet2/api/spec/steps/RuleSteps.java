@@ -17,6 +17,12 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -154,12 +160,17 @@ public class RuleSteps {
     //////////////////////////////////////
 
     Event event;
+    UUID IDUser = UUID.randomUUID();
+    String username = "tester-"+(new AtomicInteger()).incrementAndGet();
 
     @Given("^I have an event payload$")
     public void iHaveAnEventPayload() {
         event = new Event()
+                .idUser(IDUser)
+                .userName(username)
                 .action("testing")
-                .attribute("0");
+                .attribute("0")
+                .timestamp(OffsetDateTime.ofInstant(Instant.now(), ZoneOffset.UTC));
     }
 
     @When("^I send a POST to the /event endpoint$")

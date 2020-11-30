@@ -47,7 +47,6 @@ public class RuleApiController implements RuleApi {
         }
         if (app != null) {
             ruleRepository.save(newRuleEntity);
-
             location = ServletUriComponentsBuilder
                     .fromCurrentRequest().path("/{id}")
                     .buildAndExpand(newRuleEntity.getId()).toUri();
@@ -58,6 +57,11 @@ public class RuleApiController implements RuleApi {
     }
 
     private RuleEntity toRuleEntity(Rule rule) {
+        if (rule == null) return null;
+        if (rule.getName() == null) return null;
+        if (rule.getIf() == null) return null;
+        if (rule.getThen() == null) return null;
+
         RuleEntity entity = new RuleEntity();
 
         entity.setName(rule.getName());
@@ -71,13 +75,19 @@ public class RuleApiController implements RuleApi {
             String pointScaleName = rule.getThen().getPoints().getPointscale();
 
             if (badgeName != null){
-                entity.setNameBadge(badgeRepository.findByName(rule.getThen().getBadge()).getName());
+                BadgeEntity badgeEntity = badgeRepository.findByNameAndApp(badgeName,(ApplicationEntity) context.getAttribute("application"));
+                if (badgeEntity == null) return null;
+
+                entity.setNameBadge(badgeEntity.getName());
             } else {
                 entity.setNameBadge(null);
             }
 
             if (pointScaleName != null){
-                entity.setNamePointScale(pointScaleRepository.findByNameAndApp(rule.getThen().getPoints().getPointscale(), (ApplicationEntity) context.getAttribute("application")).getName());
+                PointScaleEntity pointScaleEntity = pointScaleRepository.findByNameAndApp(pointScaleName, (ApplicationEntity) context.getAttribute("application"));
+                if (pointScaleEntity == null) return null;
+
+                entity.setNamePointScale(pointScaleEntity.getName());
                 entity.setAmount(rule.getThen().getPoints().getAmount());
             } else {
                 entity.setNamePointScale(null);
