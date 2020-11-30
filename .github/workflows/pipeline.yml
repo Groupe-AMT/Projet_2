@@ -40,5 +40,5 @@ jobs:
         run: mvn -f application-impl/pom.xml clean install
       
       - name: test
-        run: cd application-specs 
+        run: cd application-specs && mvn clean test
 
