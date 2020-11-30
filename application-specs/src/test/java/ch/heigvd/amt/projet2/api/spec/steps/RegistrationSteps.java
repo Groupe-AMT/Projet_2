@@ -1,91 +1,84 @@
 package ch.heigvd.amt.projet2.api.spec.steps;
 
+import ch.heigvd.amt.projet2.api.DefaultApi;
 import ch.heigvd.amt.projet2.ApiResponse;
 import ch.heigvd.amt.projet2.ApiException;
+import ch.heigvd.amt.projet2.api.dto.ApiKey;
+import ch.heigvd.amt.projet2.api.dto.Registration;
 
-import ch.heigvd.amt.projet2.api.DefaultApi;
 import ch.heigvd.amt.projet2.api.spec.helpers.Environment;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class RegistrationSteps<ApiException> {
-    private Environment environment;
-    private DefaultApi api;
+public class RegistrationSteps {
+    private final DefaultApi api;
 
     private ApiResponse lastApiResponse;
     private ApiException lastApiException;
-    private boolean lastApiCallThrewException;
     private int lastStatusCode;
 
-    String registrationPayload = "{\n" +
-            "\t\"name\": \"stackoverflow\",\n" +
-            "\t\"description\": \"bla bla\",\n" +
-            "\t\"contactEmail\": \"olivier.lietchi@heig-vd.ch\"\n" +
-            "}\n";
+    Registration registrationPayload = new Registration()
+            .name("testRegistration")
+            .description("testing the registration processus")
+            .contact("administrator");
 
     public RegistrationSteps(Environment environment) {
-        this.environment = environment;
         this.api = environment.getApi();
     }
 
-    @Given("there is a Fruits server")
-    public void there_is_a_Fruits_server() throws Throwable {
+    @Given("there is a server")
+    public void there_is_a_server() {
         assertNotNull(api);
     }
 
     @When("^I send a GET to the /applications endpoint$")
     public void iSendAGETToTheApplicationsEndpoint() {
         try {
-            lastApiResponse = api.getApplicationsWithHttpInfo();
-            processApiResponse(lastApiResponse);
-        } catch (ch.heigvd.amt.projet2.ApiException e) {
-            e.printStackTrace();
+            processApiResponse(api.getApplicationsWithHttpInfo());
+        } catch (ApiException e) {
+            processApiException(e);
         }
     }
 
     @When("^I send a GET to the /applications endpoint with API Key$")
     public void iSendAGETToTheApplicationsEndpointWithAPIKey() {
         try {
-            lastApiResponse = api.getApplicationsWithHttpInfo(lastApiResponse);
+            lastApiResponse = api.getApplicationsWithHttpInfo();
             processApiResponse(lastApiResponse);
         } catch (ApiException e) {
             processApiException(e);
         }
     }
 
-    @When("^I send a POST to the /registration endpoint$")
-    public void iSendAPOSTToTheRegistrationEndpoint() {
+    @When("^I send a POST to the /applications endpoint for registration$")
+    public void iSendAPOSTToTheApplicationsEndpointForRegistration() {
         try {
-            lastApiResponse = api.postRegistrationWithHttpInfo(registrationPayload);
+            lastApiResponse = api.registerAppWithHttpInfo(registrationPayload);
             processApiResponse(lastApiResponse);
+            ApiKey key = (ApiKey) lastApiResponse.getData();
+            assert key.getXapiKey() != null;
+            api.getApiClient().setApiKey(key.getXapiKey().toString());
         } catch (ApiException e) {
             processApiException(e);
         }
     }
 
     @Then("I receive a {int} status code")
-    public void i_receive_a_status_code(int expectedStatusCode) throws Throwable {
+    public void i_receive_a_status_code(int expectedStatusCode) {
         assertEquals(expectedStatusCode, lastStatusCode);
     }
 
     private void processApiResponse(ApiResponse apiResponse) {
         lastApiResponse = apiResponse;
-        lastApiCallThrewException = false;
         lastApiException = null;
         lastStatusCode = lastApiResponse.getStatusCode();
-        List<String> locationHeaderValues = (List<String>)lastApiResponse.getHeaders().get("Location");
-        lastReceivedLocationHeader = locationHeaderValues != null ? locationHeaderValues.get(0) : null;
     }
 
     private void processApiException(ApiException apiException) {
-        lastApiCallThrewException = true;
         lastApiResponse = null;
         lastApiException = apiException;
         lastStatusCode = lastApiException.getCode();
