@@ -1,6 +1,8 @@
 package ch.heigvd.amt.projet2.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
@@ -16,6 +18,7 @@ public class ApplicationEntity implements Serializable {
     private String name;
     private String description;
     private String contact;
-    @Column(length=16)
+
+    @Type(type="org.hibernate.type.UUIDCharType")
     private UUID XApiKey;
 }
