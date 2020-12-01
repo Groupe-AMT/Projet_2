@@ -12,7 +12,7 @@ public class PointScaleEntity implements Serializable {
     private long id;
 
     @ManyToOne
-    private ApplicationEntity app;
+    private ApplicationEntity application;
 
     private String name;
     private int scale;

@@ -1,7 +1,10 @@
 package ch.heigvd.amt.projet2.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Table
@@ -18,6 +21,10 @@ public class PointScaleRewardEntity {
     @ManyToOne
     private PointScaleEntity pointScaleEntity;
 
+    @Type(type="org.hibernate.type.UUIDCharType")
     private UUID IDUser;
+
     private int amount;
+
+    private Timestamp timestamp;
 }

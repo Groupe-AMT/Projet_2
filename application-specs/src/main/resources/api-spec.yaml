@@ -7,6 +7,47 @@ security:
   #  - bearerAuth: []
   - apiKeyAuth: []
 paths:
+  /PointScaleRewards/{id}:
+    get:
+      description: get all Pointscale rewards for one user
+      operationId: getPointScaleRewards
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        '200':
+          description: pointscale reward for the specific user
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PointScaleStats'
+
+  /BadgeRewards/{id}:
+    get:
+      description: get all Badge rewards for one user
+      operationId: getBadgeRewards
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        '200':
+          description: badge reward for the specific user
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BadgeRewards'
   /rule:
     post:
       description: create a rule
@@ -19,10 +60,6 @@ paths:
       responses:
         '201':
           description: created
-          content:
-            'plain/text':
-              schema:
-                type: string
 
   /event:
     post:
@@ -36,10 +73,7 @@ paths:
       responses:
         '201':
           description: created
-          content:
-            'plain/text':
-              schema:
-                type: string
+
   /badges:
     post:
       description: create a badge
@@ -216,18 +250,30 @@ components:
           type: string
         appName:
           type: string
-        nbEvents:
-          type: integer
-        nbVotes:
-          type: integer
-        nbMessages:
-          type: integer
 
-    BadgeReward:
+    BadgeRewards:
       type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
 
-    PointScaleReward:
+    PointScaleStats:
       type: object
+      properties:
+        name:
+          type: string
+        scale:
+          type: integer
+        amount:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
 
     Event:
       type: object
@@ -250,15 +296,19 @@ components:
       properties:
         name:
           type: string
+          nullable: false
         if:
           type: object
+          nullable: false
           properties:
             action:
               type: string
+              nullable: false
             attribute:
               type: string
         then:
           type: object
+          nullable: false
           properties:
             badge:
               type: string
@@ -277,3 +327,10 @@ components:
           type: string
         scale:
           type: integer
+
+    EndUserID:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid

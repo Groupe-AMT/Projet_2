@@ -23,8 +23,7 @@ import java.time.ZoneOffset;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class RuleSteps {
     private final DefaultApi api;
@@ -58,7 +57,7 @@ public class RuleSteps {
     @Given("^I have a registration payload$")
     public void iHaveARegistrationPayload() {
         registration = new Registration()
-                .name("TestRule")
+                .name("TestRule"+System.currentTimeMillis())
                 .description("Test pour vérifier le fonctionnement des règles")
                 .contact("l'administrateur");
     }
@@ -71,6 +70,8 @@ public class RuleSteps {
             ApiKey key = (ApiKey) lastApiResponse.getData();
             assert key.getXapiKey() != null;
             api.getApiClient().setApiKey(key.getXapiKey().toString());
+
+            System.out.println(key.getXapiKey().toString());
         } catch (ApiException e) {
             processApiException(e);
         }
@@ -161,7 +162,8 @@ public class RuleSteps {
 
     Event event;
     UUID IDUser = UUID.randomUUID();
-    String username = "tester-"+(new AtomicInteger()).incrementAndGet();
+
+    String username = "tester-"+System.currentTimeMillis();
 
     @Given("^I have an event payload$")
     public void iHaveAnEventPayload() {
@@ -180,6 +182,55 @@ public class RuleSteps {
             processApiResponse(lastApiResponse);
         } catch (ApiException e) {
             processApiException(e);
+        }
+    }
+
+    //////////////////////////////////////
+    // Can Get Badge /////////////////////
+    //////////////////////////////////////
+
+    @When("^I send a GET to the /BadgeRewards endpoint$")
+    public void iSendAGETToTheBadgeRewardsEndpoint() {
+        try {
+            lastApiResponse = api.getBadgeRewardsWithHttpInfo(IDUser);
+            processApiResponse(lastApiResponse);
+        } catch (ApiException e) {
+            processApiException(e);
+        }
+    }
+
+    @Then("I find my awarded badge")
+    public void iFindMyAwardedBadge() {
+        if (lastApiResponse.getData().toString().contains("name: TestingBadge")){
+            assertNull(null);
+        }
+    }
+
+    //////////////////////////////////////
+    // Can Get PointScale ////////////////
+    //////////////////////////////////////
+
+    @When("^I send a GET to the /PointScaleRewards endpoint$")
+    public void iSendAGETToThePointScaleRewardsEndpoint() {
+        try {
+            lastApiResponse = api.getPointScaleRewardsWithHttpInfo(IDUser);
+            processApiResponse(lastApiResponse);
+        } catch (ApiException e) {
+            processApiException(e);
+        }
+    }
+
+    @Then("I find my awarded points")
+    public void iFindMyAwardedPoints() {
+        if (lastApiResponse.getData().toString().contains("name: TestingPointScale") && lastApiResponse.getData().toString().contains("amount: 5")){
+            assertNull(null);
+        }
+    }
+
+    @Then("I find more awarded points")
+    public void iFindMoreAwardedPoints() {
+        if (lastApiResponse.getData().toString().contains("name: TestingPointScale") && lastApiResponse.getData().toString().contains("amount: 10")){
+            assertNull(null);
         }
     }
 

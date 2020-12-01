@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
@@ -65,7 +66,7 @@ public class PointScaleApiController implements PointscalesApi {
         PointScaleEntity entity = new PointScaleEntity();
         entity.setName(pointScale.getName());
         entity.setScale(pointScale.getScale());
-        entity.setApp((ApplicationEntity) context.getAttribute("application"));
+        entity.setApplication((ApplicationEntity) context.getAttribute("application"));
         return entity;
     }
 

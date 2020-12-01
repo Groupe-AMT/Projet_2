@@ -4,12 +4,8 @@ import ch.heigvd.amt.projet2.api.BadgesApi;
 import ch.heigvd.amt.projet2.api.model.Badge;
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
 import ch.heigvd.amt.projet2.entities.BadgeEntity;
-import ch.heigvd.amt.projet2.entities.BadgeRewardEntity;
 import ch.heigvd.amt.projet2.repositories.BadgeRepository;
-import ch.heigvd.amt.projet2.repositories.BadgeRewardRepository;
 import io.swagger.annotations.ApiParam;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,7 @@ public class BadgesApiController implements BadgesApi {
 
     public ResponseEntity<List<Badge>> getBadges() {
         List<Badge> badges = new ArrayList<>();
-        for (BadgeEntity badgeEntity : badgeRepository.findByApp((ApplicationEntity) context.getAttribute("application")))
+        for (BadgeEntity badgeEntity : badgeRepository.findByApplication((ApplicationEntity) context.getAttribute("application")))
             badges.add(toBadge(badgeEntity));
 
         return ResponseEntity.ok(badges);
@@ -62,7 +61,7 @@ public class BadgesApiController implements BadgesApi {
         BadgeEntity entity = new BadgeEntity();
         entity.setName(badge.getName());
         entity.setImage(badge.getImage());
-        entity.setApp((ApplicationEntity) context.getAttribute("application"));
+        entity.setApplication((ApplicationEntity) context.getAttribute("application"));
         return entity;
     }
 

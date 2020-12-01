@@ -39,13 +39,13 @@ public class EventProcessor{
         // Check if rules are triggered
         for (RuleEntity rule: linkedRules){
             if (rule.isTriggered(event)){
-                Award(app, rule, user);
+                Award(app, rule, user, event);
             }
         }
 
     }
 
-    public void Award(ApplicationEntity app, RuleEntity rule, EndUserEntity user){
+    public void Award(ApplicationEntity app, RuleEntity rule, EndUserEntity user, EventEntity event){
         // On récupére le badge dans la règle
         BadgeEntity badge = getBadgeFromName(rule.getNameBadge(), app);
         // On récupère la pointscale dans la règle et le montant
@@ -59,6 +59,7 @@ public class EventProcessor{
                 badgeReward.setApplication(app);
                 badgeReward.setBadge(badge);
                 badgeReward.setIDUser(user.getIDUser());
+                badgeReward.setTimestamp(event.getTimestamp());
                 badgeRewardRepository.save(badgeReward);
             }
         }
@@ -70,19 +71,20 @@ public class EventProcessor{
             pointScaleReward.setIDUser(user.getIDUser());
             pointScaleReward.setPointScaleEntity(pointScale);
             pointScaleReward.setAmount(amount);
+            pointScaleReward.setTimestamp(event.getTimestamp());
             pointScaleRewardRepository.save(pointScaleReward);
         }
     }
 
     public BadgeEntity getBadgeFromName(String name, ApplicationEntity app){
         if (name != null)
-            return badgeRepository.findByNameAndApp(name, app);
+            return badgeRepository.findByNameAndApplication(name, app);
         return null;
     }
 
     public PointScaleEntity getPointScaleFromName(String name, ApplicationEntity app){
         if (name != null)
-            return pointScaleRepository.findByNameAndApp(name, app);
+            return pointScaleRepository.findByNameAndApplication(name, app);
         return null;
     }
 }

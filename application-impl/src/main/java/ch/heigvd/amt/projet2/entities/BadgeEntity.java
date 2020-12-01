@@ -13,7 +13,7 @@ public class BadgeEntity implements Serializable {
     private long id;
 
     @ManyToOne
-    private ApplicationEntity app;
+    private ApplicationEntity application;
 
     private String name;
     private String image;

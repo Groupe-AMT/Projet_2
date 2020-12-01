@@ -2,7 +2,10 @@ package ch.heigvd.amt.projet2.api.endpoints;
 
 import ch.heigvd.amt.projet2.api.RuleApi;
 import ch.heigvd.amt.projet2.api.model.Rule;
-import ch.heigvd.amt.projet2.entities.*;
+import ch.heigvd.amt.projet2.entities.ApplicationEntity;
+import ch.heigvd.amt.projet2.entities.BadgeEntity;
+import ch.heigvd.amt.projet2.entities.PointScaleEntity;
+import ch.heigvd.amt.projet2.entities.RuleEntity;
 import ch.heigvd.amt.projet2.repositories.BadgeRepository;
 import ch.heigvd.amt.projet2.repositories.PointScaleRepository;
 import ch.heigvd.amt.projet2.repositories.RuleRepository;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
@@ -66,7 +70,7 @@ public class RuleApiController implements RuleApi {
         String pointScaleName = rule.getThen().getPoints().getPointscale();
 
         if (badgeName != null){
-            BadgeEntity badgeEntity = badgeRepository.findByNameAndApp(badgeName,(ApplicationEntity) context.getAttribute("application"));
+            BadgeEntity badgeEntity = badgeRepository.findByNameAndApplication(badgeName,(ApplicationEntity) context.getAttribute("application"));
             if (badgeEntity == null) throw new IllegalArgumentException();
 
             entity.setNameBadge(badgeEntity.getName());
@@ -75,7 +79,7 @@ public class RuleApiController implements RuleApi {
         }
 
         if (pointScaleName != null){
-            PointScaleEntity pointScaleEntity = pointScaleRepository.findByNameAndApp(pointScaleName, (ApplicationEntity) context.getAttribute("application"));
+            PointScaleEntity pointScaleEntity = pointScaleRepository.findByNameAndApplication(pointScaleName, (ApplicationEntity) context.getAttribute("application"));
             if (pointScaleEntity == null) throw new IllegalArgumentException();
 
             entity.setNamePointScale(pointScaleEntity.getName());
