@@ -48,7 +48,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/BadgeRewards'
-  /rule:
+  /rules:
     post:
       description: create a rule
       operationId: createRule
@@ -61,7 +61,7 @@ paths:
         '201':
           description: created
 
-  /event:
+  /events:
     post:
       description: create an event
       operationId: createEvent
@@ -215,6 +215,7 @@ components:
       properties:
         name:
           type: string
+          maxLength: 10
         description:
           type: string
         contact:
@@ -304,6 +305,7 @@ components:
             action:
               type: string
               nullable: false
+              maxLength: 10
             attribute:
               type: string
         then:

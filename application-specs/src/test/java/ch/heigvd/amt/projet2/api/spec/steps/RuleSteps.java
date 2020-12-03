@@ -146,8 +146,8 @@ public class RuleSteps {
                 .then(ruleThen);
     }
 
-    @When("^I send a POST to the /rule endpoint$")
-    public void iSendAPOSTToTheRuleEndpoint() {
+    @When("^I send a POST to the /rules endpoint$")
+    public void iSendAPOSTToTheRulesEndpoint() {
         try {
             lastApiResponse = api.createRuleWithHttpInfo(rule);
             processApiResponse(lastApiResponse);
@@ -175,8 +175,8 @@ public class RuleSteps {
                 .timestamp(OffsetDateTime.ofInstant(Instant.now(), ZoneOffset.UTC));
     }
 
-    @When("^I send a POST to the /event endpoint$")
-    public void iSendAPOSTToTheEventEndpoint() {
+    @When("^I send a POST to the /events endpoint$")
+    public void iSendAPOSTToTheEventsEndpoint() {
         try {
             lastApiResponse = api.createEventWithHttpInfo(event);
             processApiResponse(lastApiResponse);

@@ -17,15 +17,15 @@ Feature: Rule feature works
     Given I have a point scale payload
     When I send a POST to the /pointscales endpoint
     Then I receive a 201 status code for rule steps
-    
+
   Scenario: We can make a rule
     Given I have a rule payload
-    When I send a POST to the /rule endpoint
+    When I send a POST to the /rules endpoint
     Then I receive a 201 status code for rule steps
 
   Scenario: I make an event to trigger the rule / I am awarded the badge /I am awarded the points
     Given I have an event payload
-    When I send a POST to the /event endpoint
+    When I send a POST to the /events endpoint
     Then I receive a 201 status code for rule steps
     When I send a GET to the /BadgeRewards endpoint
     Then I receive a 200 status code for rule steps
@@ -34,7 +34,7 @@ Feature: Rule feature works
     Then I receive a 200 status code for rule steps
     Then I find my awarded points
     Given I have an event payload
-    When I send a POST to the /event endpoint
+    When I send a POST to the /events endpoint
     Then I receive a 201 status code for rule steps
     When I send a GET to the /PointScaleRewards endpoint
     Then I receive a 200 status code for rule steps
