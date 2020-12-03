@@ -1,6 +1,6 @@
 package ch.heigvd.amt.projet2.api.endpoints;
 
-import ch.heigvd.amt.projet2.api.EventApi;
+import ch.heigvd.amt.projet2.api.EventsApi;
 import ch.heigvd.amt.projet2.api.model.Event;
 import ch.heigvd.amt.projet2.api.services.EventProcessor;
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
@@ -21,7 +21,7 @@ import java.net.URI;
 import java.sql.Timestamp;
 
 @Controller
-public class EventsApiController implements EventApi {
+public class EventsApiController implements EventsApi {
 
     @Autowired
     EventRepository eventRepository;

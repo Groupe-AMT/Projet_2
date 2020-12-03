@@ -29,6 +29,7 @@ public class PointScaleRewardsApiController implements PointScaleRewardsApi {
 
     @Autowired
     PointScaleRewardRepository pointScaleRewardRepository;
+
     @Autowired
     PointScaleRepository pointScaleRepository;
 
@@ -49,8 +50,6 @@ public class PointScaleRewardsApiController implements PointScaleRewardsApi {
     }
 
     private PointScaleStats toPointScaleStats(List<PointScaleRewardEntity> entities) {
-        String name = entities.get(0).getPointScaleEntity().getName();
-        int scale = entities.get(0).getPointScaleEntity().getScale();
         Timestamp timeStamp = entities.get(0).getTimestamp();
 
         int amount = 0;
@@ -58,8 +57,8 @@ public class PointScaleRewardsApiController implements PointScaleRewardsApi {
             amount += entity.getAmount();
         }
         PointScaleStats pointScaleStats = new PointScaleStats();
-        pointScaleStats.setName(name);
-        pointScaleStats.setScale(scale);
+        pointScaleStats.setName(entities.get(0).getPointScaleEntity().getName());
+        pointScaleStats.setScale(entities.get(0).getPointScaleEntity().getScale());
         pointScaleStats.setAmount(amount);
         pointScaleStats.setTimestamp(OffsetDateTime.ofInstant(Instant.ofEpochMilli(timeStamp.getTime()), ZoneId.of("UTC")));
         return pointScaleStats;

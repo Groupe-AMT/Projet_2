@@ -1,6 +1,6 @@
 package ch.heigvd.amt.projet2.api.endpoints;
 
-import ch.heigvd.amt.projet2.api.RuleApi;
+import ch.heigvd.amt.projet2.api.RulesApi;
 import ch.heigvd.amt.projet2.api.model.Rule;
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
 import ch.heigvd.amt.projet2.entities.BadgeEntity;
@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @Controller
-public class RuleApiController implements RuleApi {
+public class RulesApiController implements RulesApi{
     @Autowired
     private RuleRepository ruleRepository;
     @Autowired
