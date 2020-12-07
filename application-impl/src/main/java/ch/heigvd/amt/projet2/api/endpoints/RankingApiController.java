@@ -1,10 +1,8 @@
 package ch.heigvd.amt.projet2.api.endpoints;
 
 import ch.heigvd.amt.projet2.api.RankingsApi;
-import ch.heigvd.amt.projet2.api.model.BadgeRewards;
 import ch.heigvd.amt.projet2.api.model.Ranking;
-import ch.heigvd.amt.projet2.entities.ApplicationEntity;
-import ch.heigvd.amt.projet2.entities.BadgeRewardEntity;
+import ch.heigvd.amt.projet2.dao.ResultNumberBadgesByUserDAO;
 import ch.heigvd.amt.projet2.repositories.BadgeRewardRepository;
 import ch.heigvd.amt.projet2.repositories.EndUserRepository;
 import ch.heigvd.amt.projet2.repositories.PointScaleRewardRepository;
@@ -31,9 +29,8 @@ public class RankingApiController implements RankingsApi {
     private HttpServletRequest context;
 
     public ResponseEntity<List<Ranking>> getUserBadges(){
-        List<BadgeRewardEntity> rank = new ArrayList<>();
-        Ranking r = new Ranking();
-        rank = badgeRewardRepository.findByApplicationOrderByBadge((ApplicationEntity) context.getAttribute("application"));
+        List<ResultNumberBadgesByUserDAO> rank = new ArrayList<>();
+        rank = badgeRewardRepository.countAllByBadge();
         return null;
     }
 
