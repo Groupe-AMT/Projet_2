@@ -29,19 +29,23 @@ public class RankingApiController implements RankingsApi {
     @Autowired
     private HttpServletRequest context;
 
+    private final List<ResultsByUser> rank = new ArrayList<>();
+
     public ResponseEntity<List<ResultsByUser>> getUserBadges(){
-        List<ResultsByUser> rank = new ArrayList<>();
-        List<ResultByUserDAO> obj = badgeRewardRepository.countAllByBadge((ApplicationEntity) context.getAttribute("application"));
+        toResultsByUser(
+                badgeRewardRepository.countAllByBadge((ApplicationEntity) context.getAttribute("application")),
+                "Badge Rewards Ranking");
+        toResultsByUser(
+                pointScaleRewardRepository.countAllByPointScale((ApplicationEntity) context.getAttribute("application")),
+                "PointScale Rewards Ranking");
+        return ResponseEntity.ok(rank);
+    }
+
+    private void toResultsByUser(List<ResultByUserDAO> obj, String name){
         ResultsByUser r = new ResultsByUser();
         r.setResults(obj);
-        r.setName("Badge Rewards Ranking");
+        r.setName(name);
         rank.add(r);
-        r = new ResultsByUser();
-        obj = pointScaleRewardRepository.countAllByPointScale((ApplicationEntity) context.getAttribute("application"));
-        r.setResults(obj);
-        r.setName("PointScale Rewards Ranking");
-        rank.add(r);
-        return ResponseEntity.ok(rank);
     }
 
 }
