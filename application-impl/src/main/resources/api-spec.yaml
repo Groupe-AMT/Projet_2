@@ -28,6 +28,20 @@ paths:
                 items:
                   $ref: '#/components/schemas/PointScaleStats'
 
+  /rankings:
+    get:
+      description: get the user with the most amount of badges
+      operationId: getUserBadges
+      responses:
+        '200':
+          description: get the user with the most amount of badges
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResultsByUser'
+
   /BadgeRewards/{id}:
     get:
       description: get all Badge rewards for one user
@@ -305,7 +319,6 @@ components:
             action:
               type: string
               nullable: false
-              maxLength: 10
             attribute:
               type: string
         then:
@@ -336,3 +349,11 @@ components:
         id:
           type: string
           format: uuid
+
+    ResultsByUser:
+      type: object
+      properties:
+        name:
+          type: string
+        results:
+          type: object
