@@ -40,7 +40,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Ranking'
+                  $ref: '#/components/schemas/ResultsByUser'
 
   /BadgeRewards/{id}:
     get:
@@ -350,10 +350,10 @@ components:
           type: string
           format: uuid
 
-    Ranking:
+    ResultsByUser:
       type: object
       properties:
         name:
           type: string
-        ranking:
+        results:
           type: object
