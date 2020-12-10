@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface PointScaleRepository extends CrudRepository<PointScaleEntity, Long> {
     PointScaleEntity findByNameAndApplication(String pointScale, ApplicationEntity application);
-
     List<PointScaleEntity> findByApplication(ApplicationEntity application);
 }

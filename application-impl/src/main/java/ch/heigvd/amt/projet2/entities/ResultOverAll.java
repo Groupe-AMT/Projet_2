@@ -4,6 +4,6 @@ import java.util.UUID;
 
 public interface ResultOverAll {
     UUID getIdUser();
-    Long getTotalBadge();
-    Long getTotalPointScale();
+    int getTotalBadge();
+    int getTotalPointScale();
 }

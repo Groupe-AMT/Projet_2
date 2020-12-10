@@ -14,8 +14,6 @@ public interface BadgeRewardRepository extends CrudRepository<BadgeRewardEntity,
     List<BadgeRewardEntity> findByApplicationAndIDUser(ApplicationEntity application,UUID IDUser);
 
     @Query("select new ch.heigvd.amt.projet2.entities.ResultByUserDAO (IDUser, count (badge)) from BadgeRewardEntity where application=?1 group by IDUser ORDER BY count (badge) desc ") // JPQL
-    //@Query(value = "select id from badge_reward_entity", nativeQuery = true)// mysql
     List<ResultByUserDAO> countAllByBadge (ApplicationEntity applicationEntity);
 
-    List<BadgeRewardEntity> findByApplicationOrderByBadge(ApplicationEntity application);
 }
