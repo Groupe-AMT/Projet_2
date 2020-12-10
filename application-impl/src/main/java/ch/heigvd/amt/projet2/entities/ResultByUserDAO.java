@@ -1,4 +1,4 @@
-package ch.heigvd.amt.projet2.dao;
+package ch.heigvd.amt.projet2.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class ResultsByUserDAO implements Serializable {
+public class ResultByUserDAO implements Serializable {
     private UUID IDUser;
-    private long NbBadges;
-    private long NbPointScales;
+    private long NbItems;
 }

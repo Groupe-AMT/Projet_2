@@ -1,4 +1,4 @@
-package ch.heigvd.amt.projet2.dao;
+package ch.heigvd.amt.projet2.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
