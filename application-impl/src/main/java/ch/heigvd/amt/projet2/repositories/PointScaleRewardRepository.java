@@ -36,5 +36,5 @@ public interface PointScaleRewardRepository extends CrudRepository<PointScaleRew
             "    totalBadge DESC,\n" +
             "    totalPointScale DESC\n" +
             "    ", nativeQuery = true)
-    List<Object> overAll (ApplicationEntity applicationEntity);
+    List<ResultsByUserDAO> overAll (ApplicationEntity applicationEntity);
 }

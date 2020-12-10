@@ -3,6 +3,7 @@ package ch.heigvd.amt.projet2.api.endpoints;
 import ch.heigvd.amt.projet2.api.RankingsApi;
 import ch.heigvd.amt.projet2.api.model.ResultsByUser;
 import ch.heigvd.amt.projet2.dao.ResultByUserDAO;
+import ch.heigvd.amt.projet2.dao.ResultsByUserDAO;
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
 import ch.heigvd.amt.projet2.repositories.BadgeRewardRepository;
 import ch.heigvd.amt.projet2.repositories.EndUserRepository;
@@ -38,7 +39,7 @@ public class RankingApiController implements RankingsApi {
         toResultsByUser(
                 pointScaleRewardRepository.countAllByPointScale((ApplicationEntity) context.getAttribute("application")),
                 "PointScale Rewards Ranking");
-        //List<Long> test = pointScaleRewardRepository.overAll();
+        List<ResultsByUserDAO> test = pointScaleRewardRepository.overAll((ApplicationEntity) context.getAttribute("application"));
         return ResponseEntity.ok(rank);
     }
 
