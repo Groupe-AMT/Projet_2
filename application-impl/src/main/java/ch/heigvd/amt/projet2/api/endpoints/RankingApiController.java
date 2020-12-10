@@ -2,7 +2,7 @@ package ch.heigvd.amt.projet2.api.endpoints;
 
 import ch.heigvd.amt.projet2.api.RankingsApi;
 import ch.heigvd.amt.projet2.api.model.ResultsByUser;
-import ch.heigvd.amt.projet2.dao.ResultByUserDAO;
+import ch.heigvd.amt.projet2.entities.ResultByUserDAO;
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
 import ch.heigvd.amt.projet2.repositories.BadgeRewardRepository;
 import ch.heigvd.amt.projet2.repositories.EndUserRepository;

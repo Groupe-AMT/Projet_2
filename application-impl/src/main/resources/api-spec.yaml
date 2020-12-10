@@ -42,6 +42,20 @@ paths:
                 items:
                   $ref: '#/components/schemas/ResultsByUser'
 
+  /overallrankings:
+    get:
+      description: get the general ranking for all user
+      operationId: getOverAllRanking
+      responses:
+        '200':
+          description: get the general ranking for all user
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RankingOverAll'
+
   /BadgeRewards/{id}:
     get:
       description: get all Badge rewards for one user
@@ -357,3 +371,14 @@ components:
           type: string
         results:
           type: object
+
+    RankingOverAll:
+      type: object
+      properties:
+        IDUser:
+          type: string
+          format: uuid
+        TotalBadge:
+          type: integer
+        TotalPointScale:
+          type: integer
