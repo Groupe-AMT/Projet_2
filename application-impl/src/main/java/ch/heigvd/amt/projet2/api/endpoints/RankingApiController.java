@@ -38,6 +38,7 @@ public class RankingApiController implements RankingsApi {
         toResultsByUser(
                 pointScaleRewardRepository.countAllByPointScale((ApplicationEntity) context.getAttribute("application")),
                 "PointScale Rewards Ranking");
+        //List<Long> test = pointScaleRewardRepository.overAll();
         return ResponseEntity.ok(rank);
     }
 

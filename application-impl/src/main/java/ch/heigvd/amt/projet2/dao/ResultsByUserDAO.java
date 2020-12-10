@@ -7,7 +7,8 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class ResultByUserDAO implements Serializable {
+public class ResultsByUserDAO implements Serializable {
     private UUID IDUser;
-    private long NbItems;
+    private long NbBadges;
+    private long NbPointScales;
 }
