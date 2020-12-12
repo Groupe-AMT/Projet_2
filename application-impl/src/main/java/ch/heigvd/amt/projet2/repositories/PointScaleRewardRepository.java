@@ -17,7 +17,7 @@ public interface PointScaleRewardRepository extends CrudRepository<PointScaleRew
     @Query("select new ch.heigvd.amt.projet2.entities.ResultByUserDAO (IDUser, SUM(amount)) from PointScaleRewardEntity where application=?1 group by IDUser order by count (pointScaleEntity) desc") // JPQL
     List<ResultByUserDAO> countAllByPointScale (ApplicationEntity applicationEntity);
 
-    @Query(value = "SELECT  ps.iduser, COUNT(DISTINCT b.badge_id) AS totalBadge, SUM(ps.amount) AS totalPointScale FROM point_scale_reward_entity AS ps " +
+    @Query(value = "SELECT  ps.iduser, COUNT(DISTINCT b.badge_id) AS totalBadge, SUM( DISTINCT ps.amount) AS totalPointScale FROM point_scale_reward_entity AS ps " +
             "INNER JOIN badge_reward_entity AS b ON ps.iduser = b.iduser WHERE ps.application_id =?1 GROUP BY ps.iduser ORDER BY totalBadge DESC, totalPointScale DESC ", nativeQuery = true)
     List<ResultOverAll> overAll (ApplicationEntity applicationEntity);
 }
