@@ -32,17 +32,12 @@ public class ApplicationsApiController implements ApplicationsApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ApiKey> registerApp(@ApiParam(value = ""  )  @Valid @RequestBody(required = false) Registration registration) {
-        if (registration.getContact() == null || registration.getDescription() == null || registration.getName() == null){
-            return ResponseEntity.status(404).build();
-        }
+        if (registration.getContact() == null || registration.getDescription() == null || registration.getName() == null)  return ResponseEntity.status(404).build();
+        else if (applicationRepository.findByContactAndName(registration.getContact(), registration.getName()) != null) return ResponseEntity.status(409).build();
 
-        Application application = new Application();
-        application.setName(registration.getName());
-        application.setDescription(registration.getDescription());
-        application.setContact(registration.getContact());
-        application.setXapiKey(UUID.randomUUID());
+        Application application = toApplicationRegistration(registration);
         ApplicationEntity newApplicationEntity = toApplicationEntity(application);
-        applicationRepository.save(newApplicationEntity);
+        applicationRepository.save(toApplicationEntity(application));
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -53,12 +48,20 @@ public class ApplicationsApiController implements ApplicationsApi {
         return ResponseEntity.created(location).body(a);
     }
 
+
+    private Application toApplicationRegistration(Registration registration) {
+        Application application = new Application();
+        application.setName(registration.getName());
+        application.setDescription(registration.getDescription());
+        application.setContact(registration.getContact());
+        application.setXapiKey(UUID.randomUUID());
+        return application;
+    }
+
     @Override
     public ResponseEntity<List<Application>> getApplications(){
-        ApplicationEntity appInfo = (ApplicationEntity) context.getAttribute("application");
-        Application app = toApplication(appInfo);
         List<Application> apps = new LinkedList<>();
-        apps.add(app);
+        apps.add(toApplication((ApplicationEntity) context.getAttribute("application")));
         return ResponseEntity.ok().body(apps);
     }
 

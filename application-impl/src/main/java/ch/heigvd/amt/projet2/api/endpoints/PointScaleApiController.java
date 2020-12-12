@@ -38,6 +38,7 @@ public class PointScaleApiController implements PointscalesApi {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createPointScale(@ApiParam(value = ""  )  @Valid @RequestBody(required = false) PointScale pointScale){
         if(pointScale.getName() == null || pointScale.getScale() == null) return ResponseEntity.status(404).build();
+        else if(pointScaleRepository.findByNameAndApplication(pointScale.getName(), (ApplicationEntity) context.getAttribute("application")) != null ) return ResponseEntity.status(409).build();
 
         PointScaleEntity newPointScaleEntity = toPointScaleEntity(pointScale);
         pointScaleRepository.save(newPointScaleEntity);
@@ -50,8 +51,7 @@ public class PointScaleApiController implements PointscalesApi {
     }
 
     public ResponseEntity<PointScale> getPointScale(@ApiParam(value = "",required=true) @PathVariable("id") Integer id){
-        PointScaleEntity existingPointScaleEntity = pointScaleRepository.findById(Long.valueOf(id)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        return ResponseEntity.ok(toPointScale(existingPointScaleEntity));
+        return ResponseEntity.ok(toPointScale(pointScaleRepository.findById(Long.valueOf(id)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))));
     }
 
     public ResponseEntity<List<PointScale>> getPointScales(){

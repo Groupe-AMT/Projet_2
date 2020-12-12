@@ -6,4 +6,5 @@ import java.util.UUID;
 
 public interface ApplicationRepository extends CrudRepository<ApplicationEntity, Long> {
         ApplicationEntity findByXApiKey(UUID XApiKey);
+        ApplicationEntity findByContactAndName(String contact, String name);
  }
