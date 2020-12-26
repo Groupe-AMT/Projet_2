@@ -3,6 +3,7 @@ package ch.heigvd.amt.projet2.api.endpoints;
 import ch.heigvd.amt.projet2.api.PointscalesApi;
 import ch.heigvd.amt.projet2.api.model.PointScale;
 import ch.heigvd.amt.projet2.entities.ApplicationEntity;
+import ch.heigvd.amt.projet2.entities.BadgeEntity;
 import ch.heigvd.amt.projet2.entities.PointScaleEntity;
 import ch.heigvd.amt.projet2.entities.PointScaleRewardEntity;
 import ch.heigvd.amt.projet2.repositories.PointScaleRepository;
@@ -30,9 +31,6 @@ public class PointScaleApiController implements PointscalesApi {
     PointScaleRepository pointScaleRepository;
 
     @Autowired
-    PointScaleRewardRepository pointScaleRewardRepository;
-
-    @Autowired
     private HttpServletRequest context;
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -51,14 +49,18 @@ public class PointScaleApiController implements PointscalesApi {
     }
 
     public ResponseEntity<PointScale> getPointScale(@ApiParam(value = "",required=true) @PathVariable("id") Integer id){
-        return ResponseEntity.ok(toPointScale(pointScaleRepository.findById(Long.valueOf(id)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))));
+        PointScaleEntity tmp = pointScaleRepository.findByIdAndApplication(Long.valueOf(id), (ApplicationEntity) context.getAttribute("application"));
+        if (tmp == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        return ResponseEntity.ok(toPointScale(tmp));
     }
 
     public ResponseEntity<List<PointScale>> getPointScales(){
         List<PointScale> pointScales = new ArrayList<>();
-        for(PointScaleRewardEntity pointScaleRewardEntity : pointScaleRewardRepository.findByApplication((ApplicationEntity) context.getAttribute("application"))){
-            pointScales.add(toPointScale(pointScaleRewardEntity.getPointScaleEntity()));
-        }
+        for(PointScaleEntity pointScaleEntity : pointScaleRepository.findByApplication((ApplicationEntity) context.getAttribute("application")))
+            pointScales.add(toPointScale(pointScaleEntity));
+
         return ResponseEntity.ok(pointScales);
     }
 

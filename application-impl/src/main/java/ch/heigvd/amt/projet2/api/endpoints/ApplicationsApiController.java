@@ -48,7 +48,6 @@ public class ApplicationsApiController implements ApplicationsApi {
         return ResponseEntity.created(location).body(a);
     }
 
-
     private Application toApplicationRegistration(Registration registration) {
         Application application = new Application();
         application.setName(registration.getName());
@@ -59,10 +58,8 @@ public class ApplicationsApiController implements ApplicationsApi {
     }
 
     @Override
-    public ResponseEntity<List<Application>> getApplications(){
-        List<Application> apps = new LinkedList<>();
-        apps.add(toApplication((ApplicationEntity) context.getAttribute("application")));
-        return ResponseEntity.ok().body(apps);
+    public ResponseEntity<Application> getApplications(){
+        return ResponseEntity.ok().body(toApplication((ApplicationEntity) context.getAttribute("application")));
     }
 
     private ApplicationEntity toApplicationEntity(Application application) {

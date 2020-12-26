@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Dec 07, 2020 at 02:43 PM
+-- Generation Time: Dec 10, 2020 at 04:36 AM
 -- Server version: 8.0.21
 -- PHP Version: 7.4.11
 
@@ -82,7 +82,8 @@ INSERT INTO `point_scale_entity` (`id`, `name`, `scale`, `application_id`) VALUE
 
 INSERT INTO `point_scale_reward_entity` (`id`, `iduser`, `amount`, `timestamp`, `application_id`, `point_scale_entity_id`) VALUES
 (1, 'affeab9b-8171-4853-83be-299bb35eba8f', 2, '2020-12-01 15:37:50.000000', 2, 1),
-(2, '35ac951e-33c4-44e4-af54-e702c038af50', 35, '2020-12-02 15:37:50.000000', 3, 2);
+(2, '35ac951e-33c4-44e4-af54-e702c038af50', 35, '2020-12-02 15:37:50.000000', 3, 2),
+(3, '5e55b4c6-ba1b-4c37-bdba-3cd20acfd58f', 90, '2020-12-10 05:35:55.000000', 1, 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

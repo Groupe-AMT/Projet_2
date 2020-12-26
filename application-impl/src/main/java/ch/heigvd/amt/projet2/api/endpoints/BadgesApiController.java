@@ -6,6 +6,7 @@ import ch.heigvd.amt.projet2.entities.ApplicationEntity;
 import ch.heigvd.amt.projet2.entities.BadgeEntity;
 import ch.heigvd.amt.projet2.repositories.BadgeRepository;
 import io.swagger.annotations.ApiParam;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +55,11 @@ public class BadgesApiController implements BadgesApi {
     }
 
     public ResponseEntity<Badge> getBadge(@ApiParam(value = "",required=true) @PathVariable("id") Integer id) {
-        return ResponseEntity.ok(toBadge(badgeRepository.findById(Long.valueOf(id)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))));
+        BadgeEntity tmp = badgeRepository.findByIdAndApplication(Long.valueOf(id), (ApplicationEntity) context.getAttribute("application"));
+        if (tmp == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        return ResponseEntity.ok(toBadge(tmp));
     }
 
     private BadgeEntity toBadgeEntity(Badge badge) {

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PointScaleRewardRepository extends CrudRepository<PointScaleRewardEntity, Long> {
-    List<PointScaleRewardEntity> findByApplication(ApplicationEntity applicationEntity);
+    List<PointScaleRewardEntity> findByApplication(ApplicationEntity application);
     List<PointScaleRewardEntity> findByIDUserAndPointScaleEntityAndApplication(UUID id, PointScaleEntity pointScaleEntity, ApplicationEntity application);
 
     @Query("select new ch.heigvd.amt.projet2.entities.ResultByUserDAO (IDUser, SUM(amount)) from PointScaleRewardEntity where application=?1 group by IDUser order by count (pointScaleEntity) desc") // JPQL
