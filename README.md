@@ -8,7 +8,7 @@ Pour lancer l’application en elle même, il faut se déplacer dans le dossier 
 cd Docker 
 docker-compose up --build 
 cd ../application-impl
-mvn clean install && mvn sping-boot:run
+mvn clean install && mvn spring-boot:run
 ```
 ## Implémentation
 ### /PointScaleRewards/{id}
